@@ -492,13 +492,6 @@
 	status = "disabled";
 };
 
-&uart3 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_uart3>;
-	fsl,uart-has-rtscts;
-	status = "disabled";
-};
-
 &usbh1 {
 	vbus-supply = <&reg_usb_h1_vbus>;
 	pinctrl-names = "default";
