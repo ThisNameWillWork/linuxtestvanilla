@@ -35,22 +35,6 @@
 		status = "disabled";
 
 		compatible = "gpio-leds";
-
-		red {
-			label = "phyboard-mira:red";
-			gpios = <&gpio5 22 0>;
-		};
-
-		green {
-			label = "phyboard-mira:green";
-			gpios = <&gpio5 23 0>;
-		};
-
-		blue {
-			label = "phyboard-mira:blue";
-			gpios = <&gpio5 24 0>;
-			linux,default-trigger = "mmc0";
-		};
 	};
 
 	pca9533_leds: leds2 {
