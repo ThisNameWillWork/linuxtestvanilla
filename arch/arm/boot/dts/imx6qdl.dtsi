@@ -257,18 +257,6 @@
 					status = "disabled";
 				};
 
-				uart1: serial@02020000 {
-					compatible = "fsl,imx6q-uart", "fsl,imx21-uart";
-					reg = <0x02020000 0x4000>;
-					interrupts = <0 26 IRQ_TYPE_LEVEL_HIGH>;
-					clocks = <&clks IMX6QDL_CLK_UART_IPG>,
-						 <&clks IMX6QDL_CLK_UART_SERIAL>;
-					clock-names = "ipg", "per";
-					dmas = <&sdma 25 4 0>, <&sdma 26 4 0>;
-					dma-names = "rx", "tx";
-					status = "disabled";
-				};
-
 				esai: esai@02024000 {
 					reg = <0x02024000 0x4000>;
 					interrupts = <0 51 IRQ_TYPE_LEVEL_HIGH>;
@@ -1045,53 +1033,6 @@
 				interrupts = <0 18 IRQ_TYPE_LEVEL_HIGH>;
 			};
 
-			uart2: serial@021e8000 {
-				compatible = "fsl,imx6q-uart", "fsl,imx21-uart";
-				reg = <0x021e8000 0x4000>;
-				interrupts = <0 27 IRQ_TYPE_LEVEL_HIGH>;
-				clocks = <&clks IMX6QDL_CLK_UART_IPG>,
-					 <&clks IMX6QDL_CLK_UART_SERIAL>;
-				clock-names = "ipg", "per";
-				dmas = <&sdma 27 4 0>, <&sdma 28 4 0>;
-				dma-names = "rx", "tx";
-				status = "disabled";
-			};
-
-			uart3: serial@021ec000 {
-				compatible = "fsl,imx6q-uart", "fsl,imx21-uart";
-				reg = <0x021ec000 0x4000>;
-				interrupts = <0 28 IRQ_TYPE_LEVEL_HIGH>;
-				clocks = <&clks IMX6QDL_CLK_UART_IPG>,
-					 <&clks IMX6QDL_CLK_UART_SERIAL>;
-				clock-names = "ipg", "per";
-				dmas = <&sdma 29 4 0>, <&sdma 30 4 0>;
-				dma-names = "rx", "tx";
-				status = "disabled";
-			};
-
-			uart4: serial@021f0000 {
-				compatible = "fsl,imx6q-uart", "fsl,imx21-uart";
-				reg = <0x021f0000 0x4000>;
-				interrupts = <0 29 IRQ_TYPE_LEVEL_HIGH>;
-				clocks = <&clks IMX6QDL_CLK_UART_IPG>,
-					 <&clks IMX6QDL_CLK_UART_SERIAL>;
-				clock-names = "ipg", "per";
-				dmas = <&sdma 31 4 0>, <&sdma 32 4 0>;
-				dma-names = "rx", "tx";
-				status = "disabled";
-			};
-
-			uart5: serial@021f4000 {
-				compatible = "fsl,imx6q-uart", "fsl,imx21-uart";
-				reg = <0x021f4000 0x4000>;
-				interrupts = <0 30 IRQ_TYPE_LEVEL_HIGH>;
-				clocks = <&clks IMX6QDL_CLK_UART_IPG>,
-					 <&clks IMX6QDL_CLK_UART_SERIAL>;
-				clock-names = "ipg", "per";
-				dmas = <&sdma 33 4 0>, <&sdma 34 4 0>;
-				dma-names = "rx", "tx";
-				status = "disabled";
-			};
 		};
 
 		ipu1: ipu@02400000 {
