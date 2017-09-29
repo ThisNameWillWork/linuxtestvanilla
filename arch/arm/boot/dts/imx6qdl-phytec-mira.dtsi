@@ -513,6 +513,7 @@
 	pinctrl-0 = <&pinctrl_usbotg>;
 	vbus-supply = <&reg_usbotg_vbus>;
 	status = "disabled";
+	default-state = "off";
 };
 
 &usdhc1 {
