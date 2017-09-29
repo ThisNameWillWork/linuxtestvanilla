@@ -338,6 +338,12 @@
 			>;
 		};
 
+		pinctrl_hdmicec: hdmicecgrp {
+			fsl,pins = <
+				MX6QDL_PAD_KEY_ROW2__HDMI_TX_CEC_LINE	0x1f8b0
+			>;
+		};
+
 		pinctrl_i2c2: i2c2grp {
 			fsl,pins = <
 				MX6QDL_PAD_KEY_ROW3__I2C2_SDA		0x4001b8b1
