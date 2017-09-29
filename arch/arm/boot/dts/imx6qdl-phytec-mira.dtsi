@@ -367,10 +367,6 @@
 			fsl,pins = <MX6QDL_PAD_EIM_DA0__GPIO3_IO00	0x80000000>;
 		};
 
-		pinctrl_pwm1: pwm1grp {
-			fsl,pins = <MX6QDL_PAD_GPIO_9__PWM1_OUT		0x1b0b1>;
-		};
-
 		pinctrl_rtc_int: rtcintgrp {
 			fsl,pins = <MX6QDL_PAD_SD3_RST__SD3_RESET	0x80000000>;
 		};
