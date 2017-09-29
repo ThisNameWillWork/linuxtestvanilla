@@ -22,7 +22,7 @@
 	backlight: backlight {
 		compatible = "pwm-backlight";
 		brightness-levels = <0 4 8 16 32 64 128 255>;
-		default-brightness-level = <7>;
+		default-brightness-level = <1>;
 		power-supply = <&lcd_3v3>;
 		pwms = <&pwm1 0 5000000>;
 		enable-gpios = <&gpio2 28 GPIO_ACTIVE_LOW>;
@@ -495,6 +495,9 @@
 };
 
 &uart3 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_uart3>;
+	fsl,uart-has-rtscts;
 	status = "disabled";
 };
 
