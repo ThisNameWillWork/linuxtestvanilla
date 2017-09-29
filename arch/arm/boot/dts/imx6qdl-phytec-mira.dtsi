@@ -22,7 +22,7 @@
 	backlight: backlight {
 		compatible = "pwm-backlight";
 		brightness-levels = <0 4 8 16 32 64 128 255>;
-		default-brightness-level = <1>;
+		default-brightness-level = <7>;
 		power-supply = <&lcd_3v3>;
 		pwms = <&pwm1 0 5000000>;
 		enable-gpios = <&gpio2 28 GPIO_ACTIVE_LOW>;
@@ -375,15 +375,6 @@
 			fsl,pins = <MX6QDL_PAD_SD3_RST__SD3_RESET	0x80000000>;
 		};
 
-		pinctrl_uart3: uart3grp {
-			fsl,pins = <
-				MX6QDL_PAD_EIM_EB3__UART3_RTS_B		0x1b0b1
-				MX6QDL_PAD_EIM_D23__UART3_CTS_B		0x1b0b1
-				MX6QDL_PAD_EIM_D24__UART3_TX_DATA	0x1b0b1
-				MX6QDL_PAD_EIM_D25__UART3_RX_DATA	0x1b0b1
-			>;
-		};
-
 		pinctrl_usbh1: usbh1grp {
 			fsl,pins = <
 				MX6QDL_PAD_EIM_EB1__GPIO2_IO29		0x80000000
@@ -491,13 +482,6 @@
 &pwm1 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_pwm1>;
-	status = "disabled";
-};
-
-&uart3 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_uart3>;
-	fsl,uart-has-rtscts;
 	status = "disabled";
 };
 
