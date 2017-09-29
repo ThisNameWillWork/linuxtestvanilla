@@ -463,19 +463,21 @@
 		label = "red:user1";
 		gpios = <&leddim 0 GPIO_ACTIVE_LOW>;
 		linux,default-trigger = "none";
+		default-state = "on";
 	};
 
 	led2 {
 		label = "green:user2";
 		gpios = <&leddim 1 GPIO_ACTIVE_LOW>;
 		linux,default-trigger = "none";
+		default-state = "off";
 	};
 
 	led3 {
 		label = "blue:user3";
 		gpios = <&leddim 2 GPIO_ACTIVE_LOW>;
 		linux,default-trigger = "mmc0";
-		default-state = "on";
+		default-state = "off";
 	};
 };
 
