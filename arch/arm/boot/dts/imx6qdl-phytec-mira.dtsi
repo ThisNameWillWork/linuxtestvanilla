@@ -386,8 +386,8 @@
 
 		pinctrl_uart1: uart1grp {
 			fsl,pins = <
-				MX6QDL_PAD_CSI0_DAT10__UART1_TX_DATA       0x0001B0B0
-				MX6QDL_PAD_CSI0_DAT11__UART1_RX_DATA       0x0001B0B0
+				MX6QDL_PAD_CSI0_DAT10__UART1_TX_DATA       0x1b0b1
+				MX6QDL_PAD_CSI0_DAT11__UART1_RX_DATA       0x1b0b1
 			>;
 		};
 
