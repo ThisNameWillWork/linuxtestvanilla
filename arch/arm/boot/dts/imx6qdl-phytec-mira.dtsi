@@ -284,7 +284,7 @@
 	veml: veml7700@10 {
 		compatible = "fsl,imx6-hdmi-i2c";
 		reg = <0x10>;
-		status = "enabled";
+		status = "disabled";
         };
 };
 
