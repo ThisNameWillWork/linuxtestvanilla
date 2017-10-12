@@ -116,12 +116,6 @@
 		reg = <0x10>;
 		status = "disabled";
         };
-
-	test: test@35 {
-		compatible = "fsl,imx6-hdmi-i2c";
-		reg = <0x35>;
-		status = "disabled";
-        };
 };
 
 &i2c3 {
