@@ -105,6 +105,19 @@
 	};
 };
 
+&i2c2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_i2c2>;
+	clock-frequency = <400000>;
+	status = "disabled";
+
+	veml: veml7700@10 {
+		compatible = "veml7700";
+		reg = <0x10>;
+		status = "disabled";
+        };
+};
+
 &i2c3 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_i2c3>;
@@ -275,6 +288,13 @@
 				MX6QDL_PAD_NANDF_D6__NAND_DATA06        0xb0b1
 				MX6QDL_PAD_NANDF_D7__NAND_DATA07        0xb0b1
 				MX6QDL_PAD_SD4_DAT0__NAND_DQS           0x00b1
+			>;
+		};
+
+		pinctrl_i2c2: i2c2grp {
+			fsl,pins = <
+				MX6QDL_PAD_KEY_COL3__I2C2_SCL              0x4001b8b1
+				MX6QDL_PAD_KEY_ROW3__I2C2_SDA              0x4001b8b1
 			>;
 		};
 
