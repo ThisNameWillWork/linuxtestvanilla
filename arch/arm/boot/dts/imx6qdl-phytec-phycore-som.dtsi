@@ -112,7 +112,7 @@
 	status = "disabled";
 
 	veml: veml7700@10 {
-		compatible = "fsl,imx6-hdmi-i2c";
+		compatible = "fsl,veml7700";
 		reg = <0x10>;
 		status = "disabled";
         };

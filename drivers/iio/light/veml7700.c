@@ -105,6 +105,11 @@ static int __init veml7700_init(void)
 	return i2c_add_driver(&veml7700_driver);
 }
 
+static struct of_device_id veml7700_of_match[] __devinitdata = {
+  { .compatible = "fsl,veml7700", },
+  {}
+};
+
 static void __exit veml7700_exit(void)
 {	
 	/* TODO Auto-generated Function Stub */
