@@ -56,6 +56,7 @@ static struct i2c_driver veml7700_driver = {
 
 static int veml770_probe(struct i2c_client *client,const struct i2c_device_id *id)
 {
+	printk(KERN_DEBUG "PROBE: %s:%i\n", __FILE__, __LINE_&_);
 	struct resource *res;
 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
 
@@ -69,6 +70,7 @@ static int veml770_probe(struct i2c_client *client,const struct i2c_device_id *i
 
 static int vcnl4000_remove(struct i2c_client *client)
 {
+	printk(KERN_DEBUG "REMOVE: %s:%i\n", __FILE__, __LINE_&_);
 	return 0;
 }
 
@@ -76,6 +78,15 @@ static int veml7700_read_raw(struct iio_dev *indio_dev,
 				struct iio_chan_spec const *chan,
 				int *val, int *val2, long mask)
 {
+	printk(KERN_DEBUG "READ RAW: %s:%i\n", __FILE__, __LINE_&_);
+
+	int tries = 20;
+	int ret;
+
+	ret = i2c_smbus_write_byte_data(data->client, COMMAND_ALS,mask);
+
+	if (ret < 0)
+			return ret;
 
 	return 0;
 }
@@ -88,7 +99,7 @@ static const struct iio_info veml7700_info = {
 static int __init veml7700_init(void)
 {
 	/* TODO Auto-generated Function Stub */
-
+	printk(KERN_DEBUG "Here I am: %s:%i\n", __FILE__, __LINE_&_);
 	PINFO("INIT\n");
 
 	return i2c_add_driver(&veml7700_driver);
