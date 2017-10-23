@@ -13,7 +13,7 @@ static void my_exit(void)
 
 static struct veml7700 my_match_table[] = {
      {
-             .compatible = "veml77000",
+             .compatible = "veml7700",
      },
      {0}
 };
