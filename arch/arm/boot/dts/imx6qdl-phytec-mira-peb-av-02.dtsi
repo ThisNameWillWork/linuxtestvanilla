@@ -83,11 +83,6 @@
 		interrupts = <2 0>;
 		status = "disabled";
         };
-    audio: audio_RV-4162-C7@D0 {
-		compatible = "RV-4162-C7";
-		reg = <0xD0>;
-		status = "disabled";
-    };
 };
 
 &iomuxc {
