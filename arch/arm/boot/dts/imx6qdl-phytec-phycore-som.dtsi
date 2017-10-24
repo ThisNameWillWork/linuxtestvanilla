@@ -116,12 +116,6 @@
 		reg = <0x10>;
 		status = "disabled";
         };
-
-	nfc: nfc_m24sr16@56 {
-		compatible = "m24SR16";
-		reg = <0x56>;
-		status = "disabled";
-    };
 };
 
 &i2c3 {
