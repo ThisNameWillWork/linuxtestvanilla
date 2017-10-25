@@ -19,9 +19,19 @@
 #include <linux/i2c.h>
 #include <linux/err.h>
 #include <linux/delay.h>
-
 #include <linux/iio/iio.h>
 #include <linux/iio/sysfs.h>
+#include <linux/clk.h>
+#include <linux/delay.h>
+#include <linux/log2.h>
+#include <linux/mutex.h>
+#include <linux/of.h>
+#include <linux/of_gpio.h>
+#include <linux/regmap.h>
+#include <linux/slab.h>
+#include <linux/videodev2.h>
+#include <linux/v4l2-mediabus.h>
+#include <linux/module.h>
 
 #define veml7700_DRV_NAME "veml7700"
 
