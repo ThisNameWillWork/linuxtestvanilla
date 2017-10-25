@@ -62,6 +62,7 @@ static const struct iio_info veml7700_info = {
 static int veml7700_probe(struct i2c_client *client,
 			  const struct i2c_device_id *id)
 {
+	dev_info(&client->dev, "Probing VEML7700");
 	printk("######################################### PROBE\n");
 	printk(KERN_CRIT "######################################### PROBE\n";
 	return 0;
