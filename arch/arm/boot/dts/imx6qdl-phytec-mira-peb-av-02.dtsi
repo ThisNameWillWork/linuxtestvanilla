@@ -83,9 +83,9 @@
 		interrupts = <2 0>;
 		status = "disabled";
         };
-    audio: audio_RV-4162-C7@D0 {
+    audio: audio_RV-4162-C7@18 {
 		compatible = "RV-4162-C7";
-		reg = <0xD0>;
+		reg = <0x18>;
 		status = "disabled";
     };
 };
