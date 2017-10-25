@@ -63,12 +63,14 @@ static int veml7700_probe(struct i2c_client *client,
 			  const struct i2c_device_id *id)
 {
 	printk("######################################### PROBE\n");
+	printk(KERN_CRIT "######################################### PROBE\n";
 	return 0;
 }
 
 static int veml7700_remove(struct i2c_client *client)
 {
 	printk("######################################### REMOVE\n");
+	printk(KERN_CRIT "######################################### REMOVE\n";
 	return 0;
 }
 
