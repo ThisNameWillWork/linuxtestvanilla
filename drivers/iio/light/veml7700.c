@@ -41,8 +41,8 @@ static int __init veml7700_init(void)
 
 	PINFO("INIT\n");
 	//dev_info(&client->dev, "Probing VEML7700");
-	printk("######################################### PROBE\n");
-	printk(KERN_CRIT "######################################### PROBE\n";
+	//printk("######################################### PROBE\n");
+	//printk(KERN_CRIT "######################################### PROBE\n";
 
 	return 0;
 }
