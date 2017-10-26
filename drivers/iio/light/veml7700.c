@@ -8,7 +8,7 @@
  * the GNU General Public License.  See the file COPYING in the main
  * directory of this archive for more details.
  *
- * IIO driver for veml7700 (7-bit I2C slave address 0x13)
+ * IIO driver for veml7700 (7-bit I2C slave address 0x10)
  *
  * TODO:
  *   allow to adjust IR current
@@ -44,6 +44,12 @@ static const struct i2c_device_id veml7700_id[] = {
 	{ }
 };
 MODULE_DEVICE_TABLE(i2c, veml7700_id);
+
+static const struct of_device_id veml7700_of_match[] = {
+	{ .compatible = "veml7700" },
+	{ /* Sentinel */ }
+};
+MODULE_DEVICE_TABLE(of, veml7700_of_match);
 
 static const struct iio_chan_spec veml7700_channels[] = {
 	{
@@ -94,8 +100,33 @@ static struct i2c_driver veml7700_driver = {
 	.remove = veml7700_remove,
 	.id_table = veml7700_id,
 };
-
 module_i2c_driver(veml7700_driver);
+
+static int __init veml7700_init(void)
+{
+	/* TODO Auto-generated Function Stub */
+
+	PINFO("INIT\n");
+		dev_info(&client->dev, "Probing VEML7700");
+	printk("######################################### PROBE\n");
+	printk(KERN_CRIT "######################################### PROBE\n";
+
+	return 0;
+}
+
+static void __exit veml7700_exit(void)
+{
+	/* TODO Auto-generated Function Stub */
+
+	PINFO("EXIT\n");
+		dev_info(&client->dev, "Probing VEML7700");
+	printk("######################################### PROBE\n");
+	printk(KERN_CRIT "######################################### PROBE\n";
+
+}
+
+module_init(veml7700_init);
+module_exit(veml7700_exit);
 
 MODULE_AUTHOR("AK");
 MODULE_DESCRIPTION("Vishay veml7700 ambient light sensor driver");
