@@ -888,6 +888,9 @@ out:
 static int ds1307_probe(struct i2c_client *client,
 			const struct i2c_device_id *id)
 {
+	printk("######################################### PROBE\n");
+	PINFO("INIT\n");
+	
 	struct ds1307		*ds1307;
 	int			err = -ENODEV;
 	int			tmp;

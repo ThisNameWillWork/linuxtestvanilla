@@ -41,6 +41,7 @@ static struct i2c_driver veml7700_driver = {
 		.owner  = THIS_MODULE,
 	},
 	.probe  = veml7700_probe,
+	.remove = veml7700_remove,
 	.id_table = veml7700_id,
 };
 module_i2c_driver(veml7700_driver);
@@ -55,8 +56,19 @@ static int veml7700_probe(struct i2c_client *client,
 			  const struct i2c_device_id *id)
 {
 	printk("######################################### PROBE\n");
+	PINFO("INIT\n");
+		dev_info(&client->dev, "Probing VEML7700");
 	return 0;
 }
+
+
+static int veml7700_remove(struct i2c_client *client)
+{
+
+	return 0;
+}
+
+
 
 static int __init veml7700_init(void)
 {

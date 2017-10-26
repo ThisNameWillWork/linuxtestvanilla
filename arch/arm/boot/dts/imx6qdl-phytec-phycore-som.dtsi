@@ -114,7 +114,7 @@
 	veml: veml7700@10 {
 		compatible = "veml7700";
 		reg = <0x10>;
-		status = "disabled";
+		status = "okay";
         };
 
 	nfc: nfc_m24sr16@2d {
