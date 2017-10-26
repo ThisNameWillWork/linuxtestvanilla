@@ -35,22 +35,28 @@
 
 #define veml7700_DRV_NAME "veml7700"
 
-static str_driver veml7700_driver = {
+static struct i2c_driver veml7700_driver = {
 	.driver = {
 		.name   = veml7700_DRV_NAME,
 		.owner  = THIS_MODULE,
-	},ml7700_remove,
+	},
+	.probe  = veml7700_probe,
+	.remove = veml7700_remove,
 	.id_table = veml7700_id,
 };
+module_i2c_driver(veml7700_driver);
+
 static const struct i2c_device_id veml7700_id[] = {
 	{ "veml7700", 0 },
 	{ }
 };
 MODULE_DEVICE_TABLE(i2c, veml7700_id);
-00_probe(struct i2c_client *client,
+
+static int veml7700_probe(struct i2c_client *client,
 			  const struct i2c_device_id *id)
 {
-		dev_info(&client->dev, "Probing VEML7700");
+	printk("######################################### PROBE\n");
+	dev_info(&client->dev, "Probing VEML7700");
 	return 0;
 }
 
@@ -65,9 +71,7 @@ static int veml7700_remove(struct i2c_client *client)
 static int __init veml7700_init(void)
 {
 	/* TODO Auto-generated Function Stub */
-
-	PINFO("INIT\n");
-		dev_info(&client->dev, "Probing VEML7700");
+	dev_info(&client->dev, "Probing VEML7700");
 	printk("######################################### PROBE\n");
 	printk(KERN_CRIT "######################################### PROBE\n";
 
