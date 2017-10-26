@@ -935,6 +935,9 @@ static int ds1307_probe(struct i2c_client *client,
 		    chip->trickle_charger_setup);
 	}
 
+	dev_dbg(&client->dev, "writing trickle charger info");
+	dev_warn(&client->dev,"######################################### PROBE\n");
+
 	buf = ds1307->regs;
 	if (i2c_check_functionality(adapter, I2C_FUNC_SMBUS_I2C_BLOCK)) {
 		ds1307->read_block_data = ds1307_native_smbus_read_block_data;

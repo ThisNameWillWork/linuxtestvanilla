@@ -35,28 +35,21 @@
 
 #define veml7700_DRV_NAME "veml7700"
 
-static struct i2c_driver veml7700_driver = {
+static str_driver veml7700_driver = {
 	.driver = {
 		.name   = veml7700_DRV_NAME,
 		.owner  = THIS_MODULE,
-	},
-	.probe  = veml7700_probe,
-	.remove = veml7700_remove,
+	},ml7700_remove,
 	.id_table = veml7700_id,
 };
-module_i2c_driver(veml7700_driver);
-
 static const struct i2c_device_id veml7700_id[] = {
 	{ "veml7700", 0 },
 	{ }
 };
 MODULE_DEVICE_TABLE(i2c, veml7700_id);
-
-static int veml7700_probe(struct i2c_client *client,
+00_probe(struct i2c_client *client,
 			  const struct i2c_device_id *id)
 {
-	printk("######################################### PROBE\n");
-	PINFO("INIT\n");
 		dev_info(&client->dev, "Probing VEML7700");
 	return 0;
 }
@@ -64,7 +57,6 @@ static int veml7700_probe(struct i2c_client *client,
 
 static int veml7700_remove(struct i2c_client *client)
 {
-
 	return 0;
 }
 
