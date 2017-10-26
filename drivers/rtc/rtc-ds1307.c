@@ -890,6 +890,9 @@ static int ds1307_probe(struct i2c_client *client,
 {
 	printk("######################################### PROBE\n");
 
+	dev_warn(&client->dev,
+				 "######################################### PROBE\n");
+
 	struct ds1307		*ds1307;
 	int			err = -ENODEV;
 	int			tmp;
