@@ -35,16 +35,6 @@
 
 #define veml7700_DRV_NAME "veml7700"
 
-static struct i2c_driver veml7700_driver = {
-	.driver = {
-		.name   = veml7700_DRV_NAME,
-		.owner  = THIS_MODULE,
-	},
-	.probe  = veml7700_probe,
-	.remove = veml7700_remove,
-	.id_table = veml7700_id,
-};
-module_i2c_driver(veml7700_driver);
 
 static const struct i2c_device_id veml7700_id[] = {
 	{ "veml7700", 0 },
@@ -71,7 +61,7 @@ static int veml7700_remove(struct i2c_client *client)
 static int __init veml7700_init(void)
 {
 	/* TODO Auto-generated Function Stub */
-	dev_info(&client->dev, "Probing VEML7700");
+	//dev_info(&client->dev, "Probing VEML7700");
 	printk("######################################### PROBE\n");
 	printk(KERN_CRIT "######################################### PROBE\n";
 
@@ -83,11 +73,22 @@ static void __exit veml7700_exit(void)
 	/* TODO Auto-generated Function Stub */
 
 	PINFO("EXIT\n");
-		dev_info(&client->dev, "Probing VEML7700");
+	//dev_info(&client->dev, "Probing VEML7700");
 	printk("######################################### PROBE\n");
 	printk(KERN_CRIT "######################################### PROBE\n";
 
 }
+
+static struct i2c_driver veml7700_driver = {
+	.driver = {
+		.name   = veml7700_DRV_NAME,
+		.owner  = THIS_MODULE,
+	},
+	.probe  = veml7700_probe,
+	.remove = veml7700_remove,
+	.id_table = veml7700_id,
+};
+module_i2c_driver(veml7700_driver);
 
 module_init(veml7700_init);
 module_exit(veml7700_exit);
