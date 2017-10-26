@@ -39,10 +39,10 @@ static int __init veml7700_init(void)
 {
 	/* TODO Auto-generated Function Stub */
 
-	//PINFO("INIT\n");
-	//dev_info(&client->dev, "Probing VEML7700");
-	//printk("######################################### PROBE\n");
-	//printk(KERN_CRIT "######################################### PROBE\n";
+	PINFO("INIT\n");
+		dev_info(&client->dev, "Probing VEML7700");
+	printk("######################################### PROBE\n");
+	printk(KERN_CRIT "######################################### PROBE\n";
 
 	return 0;
 }
@@ -51,10 +51,10 @@ static void __exit veml7700_exit(void)
 {
 	/* TODO Auto-generated Function Stub */
 
-	//PINFO("EXIT\n");
-	//dev_info(&client->dev, "Probing VEML7700");
-	//printk("######################################### PROBE\n");
-	//printk(KERN_CRIT "######################################### PROBE\n";
+	PINFO("EXIT\n");
+		dev_info(&client->dev, "Probing VEML7700");
+	printk("######################################### PROBE\n");
+	printk(KERN_CRIT "######################################### PROBE\n";
 
 }
 
