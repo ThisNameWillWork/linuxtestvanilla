@@ -25,6 +25,9 @@
 #include <linux/iio/sysfs.h>
 
 #define veml7700_DRV_NAME "veml7700"
+#define DEBUG 1
+#define SUCCESS 0
+
 #define COMMAND_ALS_SM      0x00   /**/ 
 #define COMMAND_ALS_WH      0x01   /**/ 
 #define COMMAND_ALS_WL      0x02   /**/ 
@@ -44,24 +47,119 @@ MODULE_DEVICE_TABLE(i2c, veml7700_id);
 static int veml7700_probe(struct i2c_client *client,
 			  const struct i2c_device_id *id)
 {
+
+#ifdef DEBUG
 	printk(KERN_DEBUG "VEML7700 ######################################### PROBE\n");
 	dev_info(&client->dev, "Probing VEML7700");
+
 
 	int e = i2c_smbus_read_byte_data(client, COMMAND_ALS);
 	printk(KERN_DEBUG "VEML7700 ######################################### VAL: %d\n",e);
 
 	e = i2c_smbus_read_byte_data(client, COMMAND_WHITE);
 	printk(KERN_DEBUG "VEML7700 ######################################### VAL: %d\n",e);
+#endif
 
 	return 0;
 }
-
 
 static int veml7700_remove(struct i2c_client *client)
 {
 	return 0;
 }
 
+/* 
+ * This is called whenever a process attempts to open the device file 
+ */
+static int device_open(struct inode *inode, struct file *file)
+{
+#ifdef DEBUG
+	printk(KERN_INFO "device_open(%p)\n", file);
+#endif
+
+	/* 
+	 * We don't want to talk to two processes at the same time 
+	 */
+	if (Device_Open)
+		return -EBUSY;
+
+	Device_Open++;
+	/*
+	 * Initialize the message 
+	 */
+	Message_Ptr = Message;
+	try_module_get(THIS_MODULE);
+	return SUCCESS;
+}
+
+static int device_release(struct inode *inode, struct file *file)
+{
+#ifdef DEBUG
+	printk(KERN_INFO "device_release(%p,%p)\n", inode, file);
+#endif
+
+	/* 
+	 * We're now ready for our next caller 
+	 */
+	Device_Open--;
+
+	module_put(THIS_MODULE);
+	return SUCCESS;
+}
+
+/* 
+ * This function is called whenever a process which has already opened the
+ * device file attempts to read from it.
+ */
+static ssize_t device_read(struct file *file,	/* see include/linux/fs.h   */
+			   char __user * buffer,	/* buffer to be
+							 * filled with data */
+			   size_t length,	/* length of the buffer     */
+			   loff_t * offset)
+{
+	/* 
+	 * Number of bytes actually written to the buffer 
+	 */
+	int bytes_read = 0;
+
+#ifdef DEBUG
+	printk(KERN_INFO "device_read(%p,%p,%d)\n", file, buffer, length);
+#endif
+
+	/* 
+	 * If we're at the end of the message, return 0
+	 * (which signifies end of file) 
+	 */
+	if (*Message_Ptr == 0)
+		return 0;
+
+	/* 
+	 * Actually put the data into the buffer 
+	 */
+	while (length && *Message_Ptr) {
+
+		/* 
+		 * Because the buffer is in the user data segment,
+		 * not the kernel data segment, assignment wouldn't
+		 * work. Instead, we have to use put_user which
+		 * copies data from the kernel data segment to the
+		 * user data segment. 
+		 */
+		put_user(*(Message_Ptr++), buffer++);
+		length--;
+		bytes_read++;
+	}
+
+#ifdef DEBUG
+	printk(KERN_INFO "Read %d bytes, %d left\n", bytes_read, length);
+#endif
+
+	/* 
+	 * Read functions are supposed to return the number
+	 * of bytes actually inserted into the buffer 
+	 */
+	return bytes_read;
+}
 
 static int veml7700_read_raw(struct iio_dev *indio_dev,
 				struct iio_chan_spec const *chan,
