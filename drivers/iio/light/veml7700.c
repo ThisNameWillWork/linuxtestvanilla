@@ -38,14 +38,30 @@ static int veml7700_probe(struct i2c_client *client,
 {
 	//printk("######################################### PROBE\n");
 	dev_info(&client->dev, "Probing VEML7700");
+	dev_info("Probing TEST VEML7700");
 	return 0;
 }
 
 
 static int veml7700_remove(struct i2c_client *client)
 {
+	dev_info("REMOVE VEML7700");
 	return 0;
 }
+
+
+static int vcnl4000_read_raw(struct iio_dev *indio_dev,
+				struct iio_chan_spec const *chan,
+				int *val, int *val2, long mask)
+{
+	dev_info("READ VEML7700");
+	return 0;
+}
+
+static const struct iio_info vcnl4000_info = {
+	.read_raw = vcnl4000_read_raw,
+	.driver_module = THIS_MODULE,
+};
 
 static struct i2c_driver veml7700_driver = {
 	.driver = {
