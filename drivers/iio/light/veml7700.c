@@ -25,7 +25,15 @@
 #include <linux/iio/sysfs.h>
 
 #define veml7700_DRV_NAME "veml7700"
-
+#define COMMAND_ALS_SM      0x00   /**/ 
+#define COMMAND_ALS_WH      0x01   /**/ 
+#define COMMAND_ALS_WL      0x02   /**/ 
+#define COMMAND_PSM        	0x03   /**/ 
+#define COMMAND_PSM_EN      0x03   /**/ 
+#define COMMAND_ALS        	0x04   /**/ 
+#define COMMAND_WHITE      	0x05   /**/ 
+#define COMMAND_ALS_IF_L    0x06   /**/ 
+#define COMMAND_ALS_IF_H    0x06   /**/ 
 
 static const struct i2c_device_id veml7700_id[] = {
 	{ "veml7700", 0 },
@@ -38,6 +46,11 @@ static int veml7700_probe(struct i2c_client *client,
 {
 	printk(KERN_DEBUG "VEML7700 ######################################### PROBE\n");
 	dev_info(&client->dev, "Probing VEML7700");
+
+
+	int e = i2c_smbus_write_word_data(client,COMMAND_ALS);
+	printk(KERN_DEBUG "VEML7700 ######################################### VAL: %d\n".e);
+
 	return 0;
 }
 
