@@ -36,7 +36,7 @@ MODULE_DEVICE_TABLE(i2c, veml7700_id);
 static int veml7700_probe(struct i2c_client *client,
 			  const struct i2c_device_id *id)
 {
-	printk(KERN_DEBUG "######################################### PROBE\n");
+	printk(KERN_DEBUG "VEML7700 ######################################### PROBE\n");
 	dev_info(&client->dev, "Probing VEML7700");
 	return 0;
 }
@@ -48,16 +48,16 @@ static int veml7700_remove(struct i2c_client *client)
 }
 
 
-static int vcnl4000_read_raw(struct iio_dev *indio_dev,
+static int veml7700_read_raw(struct iio_dev *indio_dev,
 				struct iio_chan_spec const *chan,
 				int *val, int *val2, long mask)
 {
-
+	printk(KERN_DEBUG "VEML7700 ######################################### READ RAW\n");
 	return 0;
 }
 
-static const struct iio_info vcnl4000_info = {
-	.read_raw = vcnl4000_read_raw,
+static const struct iio_info veml7700_info = {
+	.read_raw = veml7700_read_raw,
 	.driver_module = THIS_MODULE,
 };
 
