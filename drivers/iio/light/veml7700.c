@@ -36,7 +36,7 @@ MODULE_DEVICE_TABLE(i2c, veml7700_id);
 static int veml7700_probe(struct i2c_client *client,
 			  const struct i2c_device_id *id)
 {
-	//printk("######################################### PROBE\n");
+	printk("######################################### PROBE\n");
 	dev_info(&client->dev, "Probing VEML7700");
 	return 0;
 }
