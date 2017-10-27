@@ -50,6 +50,9 @@ static int veml7700_probe(struct i2c_client *client,
 	int e = i2c_smbus_read_byte_data(client, COMMAND_ALS);
 	printk(KERN_DEBUG "VEML7700 ######################################### VAL: %d\n",e);
 
+	e = i2c_smbus_read_byte_data(client, COMMAND_WHITE);
+	printk(KERN_DEBUG "VEML7700 ######################################### VAL: %d\n",e);
+
 	return 0;
 }
 
