@@ -58,9 +58,6 @@ static struct i2c_driver veml7700_driver = {
 };
 module_i2c_driver(veml7700_driver);
 
-module_init(veml7700_init);
-module_exit(veml7700_exit);
-
 MODULE_AUTHOR("AK");
 MODULE_DESCRIPTION("Vishay veml7700 ambient light sensor driver");
 MODULE_LICENSE("GPL");
