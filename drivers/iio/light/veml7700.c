@@ -56,28 +56,6 @@ static int veml7700_remove(struct i2c_client *client)
 	return 0;
 }
 
-
-
-static int __init veml7700_init(void)
-{
-	/* TODO Auto-generated Function Stub */
-	//dev_info(&client->dev, "Probing VEML7700");
-	printk("######################################### PROBE\n");
-	printk(KERN_CRIT "######################################### PROBE\n");
-
-	return 0;
-}
-
-static void __exit veml7700_exit(void)
-{
-	/* TODO Auto-generated Function Stub */
-
-	//dev_info(&client->dev, "Probing VEML7700");
-	printk("######################################### PROBE\n");
-	printk(KERN_CRIT "######################################### PROBE\n");
-
-}
-
 static struct i2c_driver veml7700_driver = {
 	.driver = {
 		.name   = veml7700_DRV_NAME,
