@@ -77,19 +77,8 @@ static int device_open(struct inode *inode, struct file *file)
 	printk(KERN_INFO "device_open(%p)\n", file);
 #endif
 
-	/* 
-	 * We don't want to talk to two processes at the same time 
-	 */
-	if (Device_Open)
-		return -EBUSY;
-
-	Device_Open++;
-	/*
-	 * Initialize the message 
-	 */
-	Message_Ptr = Message;
 	try_module_get(THIS_MODULE);
-	return SUCCESS;
+	return 0;
 }
 
 static int device_release(struct inode *inode, struct file *file)
@@ -98,13 +87,8 @@ static int device_release(struct inode *inode, struct file *file)
 	printk(KERN_INFO "device_release(%p,%p)\n", inode, file);
 #endif
 
-	/* 
-	 * We're now ready for our next caller 
-	 */
-	Device_Open--;
-
 	module_put(THIS_MODULE);
-	return SUCCESS;
+	return 0;
 }
 
 /* 
@@ -121,43 +105,6 @@ static ssize_t device_read(struct file *file,	/* see include/linux/fs.h   */
 	 * Number of bytes actually written to the buffer 
 	 */
 	int bytes_read = 0;
-
-#ifdef DEBUG
-	printk(KERN_INFO "device_read(%p,%p,%d)\n", file, buffer, length);
-#endif
-
-	/* 
-	 * If we're at the end of the message, return 0
-	 * (which signifies end of file) 
-	 */
-	if (*Message_Ptr == 0)
-		return 0;
-
-	/* 
-	 * Actually put the data into the buffer 
-	 */
-	while (length && *Message_Ptr) {
-
-		/* 
-		 * Because the buffer is in the user data segment,
-		 * not the kernel data segment, assignment wouldn't
-		 * work. Instead, we have to use put_user which
-		 * copies data from the kernel data segment to the
-		 * user data segment. 
-		 */
-		put_user(*(Message_Ptr++), buffer++);
-		length--;
-		bytes_read++;
-	}
-
-#ifdef DEBUG
-	printk(KERN_INFO "Read %d bytes, %d left\n", bytes_read, length);
-#endif
-
-	/* 
-	 * Read functions are supposed to return the number
-	 * of bytes actually inserted into the buffer 
-	 */
 	return bytes_read;
 }
 
