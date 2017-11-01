@@ -38,14 +38,14 @@
 #define COMMAND_ALS_IF_L    0x06   /**/ 
 #define COMMAND_ALS_IF_H    0x06   /**/ 
 
-static const struct i2c_veml7700_id veml7700_id[] = {
+static const struct i2c_device_id veml7700_id[] = {
 	{ "veml7700", 0 },
 	{ }
 };
-MODULE_veml7700_TABLE(i2c, veml7700_id);
+MODULE_DEVICE_TABLE(i2c, veml7700_id);
 
 static int veml7700_probe(struct i2c_client *client,
-			  const struct i2c_veml7700_id *id)
+			  const struct i2c_device_id *id)
 {
 
 #ifdef DEBUG
@@ -71,20 +71,20 @@ static int veml7700_remove(struct i2c_client *client)
 /* 
  * This is called whenever a process attempts to open the device file 
  */
-static int veml7700_open(struct inode *inode, struct file *file)
+static int device_open(struct inode *inode, struct file *file)
 {
 #ifdef DEBUG
-	printk(KERN_INFO "veml7700_open(%p)\n", file);
+	printk(KERN_INFO "device_open(%p)\n", file);
 #endif
 
 	try_module_get(THIS_MODULE);
 	return 0;
 }
 
-static int veml7700_release(struct inode *inode, struct file *file)
+static int device_release(struct inode *inode, struct file *file)
 {
 #ifdef DEBUG
-	printk(KERN_INFO "veml7700_release(%p,%p)\n", inode, file);
+	printk(KERN_INFO "device_release(%p,%p)\n", inode, file);
 #endif
 
 	module_put(THIS_MODULE);
@@ -95,13 +95,13 @@ static int veml7700_release(struct inode *inode, struct file *file)
  * This function is called when somebody tries to
  * write into our device file. 
  */
-static ssize_t veml7700_write(struct file *file,
+static ssize_t device_write(struct file *file,
 	     const char __user * buffer, size_t length, loff_t * offset)
 {
 	int i;
 
 #ifdef DEBUG
-	printk(KERN_INFO "veml7700_write(%p,%s,%d)", file, buffer, length);
+	printk(KERN_INFO "device_write(%p,%s,%d)", file, buffer, length);
 #endif
 
 	for (i = 0; i < length && i < BUF_LEN; i++)
@@ -119,7 +119,7 @@ static ssize_t veml7700_write(struct file *file,
  * This function is called whenever a process which has already opened the
  * device file attempts to read from it.
  */
-static ssize_t veml7700_read(struct file *file,	/* see include/linux/fs.h   */
+static ssize_t device_read(struct file *file,	/* see include/linux/fs.h   */
 			   char __user * buffer,	/* buffer to be
 							 * filled with data */
 			   size_t length,	/* length of the buffer     */
@@ -150,7 +150,7 @@ static int veml7700_read_raw(struct iio_dev *indio_dev,
  * calling process), the ioctl call returns the output of this function.
  *
  */
-int veml7700_ioctl(struct inode *inode,	/* see include/linux/fs.h */
+int device_ioctl(struct inode *inode,	/* see include/linux/fs.h */
 		 struct file *file,	/* ditto */
 		 unsigned int ioctl_num,	/* number and param for ioctl */
 		 unsigned long ioctl_param)
@@ -178,7 +178,7 @@ int veml7700_ioctl(struct inode *inode,	/* see include/linux/fs.h */
 		for (i = 0; ch && i < BUF_LEN; i++, temp++)
 			get_user(ch, temp);
 
-		veml7700_write(file, (char *)ioctl_param, i, 0);
+		device_write(file, (char *)ioctl_param, i, 0);
 		break;
 
 	case IOCTL_GET_MSG:
@@ -186,7 +186,7 @@ int veml7700_ioctl(struct inode *inode,	/* see include/linux/fs.h */
 		 * Give the current message to the calling process - 
 		 * the parameter we got is a pointer, fill it. 
 		 */
-		i = veml7700_read(file, (char *)ioctl_param, 99, 0);
+		i = device_read(file, (char *)ioctl_param, 99, 0);
 
 		/* 
 		 * Put a zero at the end of the buffer, so it will be 
@@ -215,11 +215,11 @@ int veml7700_ioctl(struct inode *inode,	/* see include/linux/fs.h */
  * init_module. NULL is for unimplemented functions. 
  */
 struct file_operations Fops = {
-	.read = veml7700_read,
-	.write = veml7700_write,
-	.ioctl = veml7700_ioctl,
-	.open = veml7700_open,
-	.release = veml7700_release,	/* a.k.a. close */
+	.read = device_read,
+	.write = device_write,
+	.ioctl = device_ioctl,
+	.open = device_open,
+	.release = device_release,	/* a.k.a. close */
 };
 
 static const struct iio_info veml7700_info = {
