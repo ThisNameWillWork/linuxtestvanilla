@@ -102,7 +102,10 @@ static int device_release(struct inode *inode, struct file *file)
 	return 0;
 }
 
-int device_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
+int device_unlocked_ioctl(struct inode *inode,  /* see include/linux/fs.h */
+		 struct file *file,  /* ditto */
+		 unsigned int ioctl_num,   /* number and param for ioctl */
+		 unsigned long ioctl_param)
 {
 	int i;
 	char *temp;
@@ -111,7 +114,7 @@ int device_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 	/*
 	 * Switch according to the ioctl called
 	 */
-	switch (cmd) {
+	switch (ioctl_num) {
 	case IOCTL_SET_MSG:
 		/*
 		 * Receive a pointer to a message (in user space) and set that
@@ -145,7 +148,7 @@ static const struct file_operations veml7700_fops= {
 	.owner            = THIS_MODULE,
 	.read     = device_read,//
 	.write    = device_write,//
-	.ioctl    = device_ioctl,//
+	.unlocked_ioctl    = device_unlocked_ioctl,//
 	.open     = device_open,//
 	.release = device_release, /* a.k.a. close */
 };
