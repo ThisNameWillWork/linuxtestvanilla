@@ -16,10 +16,12 @@
  */
 
 #include "chardev.h"
+#include <linux/kernel.h>	/* We're doing kernel work */
 #include <linux/module.h>
 #include <linux/i2c.h>
 #include <linux/err.h>
 #include <linux/delay.h>
+#include <asm/uaccess.h>	/* for get_user and put_user */
 
 #include <linux/iio/iio.h>
 #include <linux/iio/sysfs.h>
