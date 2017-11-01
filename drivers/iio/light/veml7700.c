@@ -10,6 +10,29 @@ Description		:		LINUX DEVICE DRIVER PROJECT
 #include"veml7700.h"
 #include "chardev.h"
 
+#include <linux/kernel.h>	/* We're doing kernel work */
+#include <linux/module.h>
+#include <linux/i2c.h>
+#include <linux/err.h>
+#include <linux/delay.h>
+#include <asm/uaccess.h>	/* for get_user and put_user */
+
+#include <linux/iio/iio.h>
+#include <linux/iio/sysfs.h>
+
+#define veml7700_DRV_NAME "veml7700"
+#define DEBUG 1
+
+#define COMMAND_ALS_SM      0x00   /**/ 
+#define COMMAND_ALS_WH      0x01   /**/ 
+#define COMMAND_ALS_WL      0x02   /**/ 
+#define COMMAND_PSM        	0x03   /**/ 
+#define COMMAND_PSM_EN      0x03   /**/ 
+#define COMMAND_ALS        	0x04   /**/ 
+#define COMMAND_WHITE      	0x05   /**/ 
+#define COMMAND_ALS_IF_L    0x06   /**/ 
+#define COMMAND_ALS_IF_H    0x06   /**/ 
+
 #define VEML7700_N_MINORS 1
 #define VEML7700_FIRST_MINOR 0
 #define VEML7700_NODE_NAME "veml7700"
