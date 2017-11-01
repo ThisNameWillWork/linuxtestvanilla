@@ -104,7 +104,7 @@ static ssize_t device_read(struct file *file,	/* see include/linux/fs.h   */
 	/* 
 	 * Number of bytes actually written to the buffer 
 	 */
-	int bytes_read = 0;
+	int bytes_read = 99;
 	return bytes_read;
 }
 
