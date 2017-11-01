@@ -15,7 +15,7 @@
  *   proximity threshold and event handling
  */
 
-
+#include "chardev.h"
 #include <linux/module.h>
 #include <linux/i2c.h>
 #include <linux/err.h>
@@ -37,6 +37,9 @@
 #define COMMAND_WHITE      	0x05   /**/ 
 #define COMMAND_ALS_IF_L    0x06   /**/ 
 #define COMMAND_ALS_IF_H    0x06   /**/ 
+
+
+#define SUCCESS 0
 
 static const struct i2c_device_id veml7700_id[] = {
 	{ "veml7700", 0 },
