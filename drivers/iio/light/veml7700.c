@@ -167,16 +167,7 @@ int device_ioctl(struct inode *inode,	/* see include/linux/fs.h */
 		 * to be the device's message.  Get the parameter given to 
 		 * ioctl by the process. 
 		 */
-		temp = (char *)ioctl_param;
-
-		/* 
-		 * Find the length of the message 
-		 */
-		get_user(ch, temp);
-		for (i = 0; ch && i < BUF_LEN; i++, temp++)
-			get_user(ch, temp);
-
-		device_write(file, (char *)ioctl_param, i, 0);
+		printk(KERN_DEBUG "VEML7700 ######################################### SETMSG\n");
 		break;
 
 	case IOCTL_GET_MSG:
@@ -184,13 +175,7 @@ int device_ioctl(struct inode *inode,	/* see include/linux/fs.h */
 		 * Give the current message to the calling process - 
 		 * the parameter we got is a pointer, fill it. 
 		 */
-		i = device_read(file, (char *)ioctl_param, 99, 0);
-
-		/* 
-		 * Put a zero at the end of the buffer, so it will be 
-		 * properly terminated 
-		 */
-		put_user('\0', (char *)ioctl_param + i);
+		printk(KERN_DEBUG "VEML7700 ######################################### GETMSG\n");
 		break;
 
 	case IOCTL_GET_NTH_BYTE:
@@ -198,7 +183,7 @@ int device_ioctl(struct inode *inode,	/* see include/linux/fs.h */
 		 * This ioctl is both input (ioctl_param) and 
 		 * output (the return value of this function) 
 		 */
-		return Message[ioctl_param];
+		printk(KERN_DEBUG "VEML7700 ######################################### NTHBYTE\n");
 		break;
 	}
 
