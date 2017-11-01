@@ -14,6 +14,7 @@ Description		:		LINUX DEVICE DRIVER PROJECT
 #define VEML7700_FIRST_MINOR 0
 #define VEML7700_NODE_NAME "veml7700"
 #define VEML7700_BUFF_SIZE 1024
+#define SUCCESS 0
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("ANDRE KILIAN");
@@ -48,14 +49,6 @@ MODULE_DEVICE_TABLE(i2c,veml7700_i2c_driver_ids);
 
 atomic_t dev_cnt = ATOMIC_INIT(VEML7700_FIRST_MINOR - 1);
 
-static const struct file_operations veml7700_fops= {
-	.owner				= THIS_MODULE,
-	.read 	 = device_read,//
-	.write 	 = device_write,//
-	.ioctl 	 = device_ioctl,//
-	.open 	 = device_open,//
-	.release = device_release,	/* a.k.a. close */
-};
 
 static int device_open(struct inode *inode, struct file *file)
 {
@@ -125,6 +118,15 @@ int device_ioctl(struct inode *inode,	/* see include/linux/fs.h */
 
 	return SUCCESS;
 }
+
+static const struct file_operations veml7700_fops= {
+	.owner				= THIS_MODULE,
+	.read 	 = device_read,//
+	.write 	 = device_write,//
+	.ioctl 	 = device_ioctl,//
+	.open 	 = device_open,//
+	.release = device_release,	/* a.k.a. close */
+};
 
 static int veml7700_probe(struct i2c_client *client ,
 							const struct i2c_device_id *id)
