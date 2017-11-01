@@ -98,16 +98,11 @@ static int device_release(struct inode *inode, struct file *file)
 static ssize_t device_write(struct file *file,
 	     const char __user * buffer, size_t length, loff_t * offset)
 {
-	int i;
+	int i = 0;
 
 #ifdef DEBUG
 	printk(KERN_INFO "device_write(%p,%s,%d)", file, buffer, length);
 #endif
-
-	for (i = 0; i < length && i < BUF_LEN; i++)
-		get_user(Message[i], buffer + i);
-
-	Message_Ptr = Message;
 
 	/* 
 	 * Again, return the number of input characters used 
