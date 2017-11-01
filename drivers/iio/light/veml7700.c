@@ -8,6 +8,7 @@ Description		:		LINUX DEVICE DRIVER PROJECT
 */
 
 #include"veml7700.h"
+#include "chardev.h"
 
 #define VEML7700_N_MINORS 1
 #define VEML7700_FIRST_MINOR 0
@@ -49,7 +50,81 @@ atomic_t dev_cnt = ATOMIC_INIT(VEML7700_FIRST_MINOR - 1);
 
 static const struct file_operations veml7700_fops= {
 	.owner				= THIS_MODULE,
+	.read 	 = device_read,//
+	.write 	 = device_write,//
+	.ioctl 	 = device_ioctl,//
+	.open 	 = device_open,//
+	.release = device_release,	/* a.k.a. close */
 };
+
+static int device_open(struct inode *inode, struct file *file)
+{
+	return 0;
+}
+
+static ssize_t device_read(struct file *file,	/* see include/linux/fs.h   */
+			   char __user * buffer,	/* buffer to be
+							 * filled with data */
+			   size_t length,	/* length of the buffer     */
+			   loff_t * offset)
+{
+	int bytes_read = 99;
+	return bytes_read;
+}
+
+static ssize_t device_write(struct file *file,
+	     const char __user * buffer, size_t length, loff_t * offset)
+{
+	int i = 0;
+	return i;
+}
+
+static int device_release(struct inode *inode, struct file *file)
+{
+	return 0;
+}
+
+int device_ioctl(struct inode *inode,	/* see include/linux/fs.h */
+		 struct file *file,	/* ditto */
+		 unsigned int ioctl_num,	/* number and param for ioctl */
+		 unsigned long ioctl_param)
+{
+	int i;
+	char *temp;
+	char ch;
+
+	/*
+	 * Switch according to the ioctl called
+	 */
+	switch (ioctl_num) {
+	case IOCTL_SET_MSG:
+		/*
+		 * Receive a pointer to a message (in user space) and set that
+		 * to be the device's message.  Get the parameter given to
+		 * ioctl by the process.
+		 */
+		printk(KERN_DEBUG "VEML7700 ######################################### SETMSG\n");
+		break;
+
+	case IOCTL_GET_MSG:
+		/*
+		 * Give the current message to the calling process -
+		 * the parameter we got is a pointer, fill it.
+		 */
+		printk(KERN_DEBUG "VEML7700 ######################################### GETMSG\n");
+		break;
+
+	case IOCTL_GET_NTH_BYTE:
+		/*
+		 * This ioctl is both input (ioctl_param) and
+		 * output (the return value of this function)
+		 */
+		printk(KERN_DEBUG "VEML7700 ######################################### NTHBYTE\n");
+		break;
+	}
+
+	return SUCCESS;
+}
 
 static int veml7700_probe(struct i2c_client *client ,
 							const struct i2c_device_id *id)
