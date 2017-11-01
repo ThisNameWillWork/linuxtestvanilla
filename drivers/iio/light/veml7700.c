@@ -77,7 +77,7 @@ static int device_release(struct inode *inode, struct file *file)
 	return 0;
 }
 
-int device_ioctl(struct inode *inode,	/* see include/linux/fs.h */
+int device_unlocked_ioctl(struct inode *inode,	/* see include/linux/fs.h */
 		 struct file *file,	/* ditto */
 		 unsigned int ioctl_num,	/* number and param for ioctl */
 		 unsigned long ioctl_param)
@@ -123,7 +123,7 @@ static const struct file_operations veml7700_fops= {
 	.owner				= THIS_MODULE,
 	.read 	 = device_read,//
 	.write 	 = device_write,//
-	.ioctl 	 = device_ioctl,//
+	.ioctl 	 = device_unlocked_ioctl,//
 	.open 	 = device_open,//
 	.release = device_release,	/* a.k.a. close */
 };
@@ -162,6 +162,12 @@ static int veml7700_probe(struct i2c_client *client ,
 		PERR("device creation failed\n");
 		return -1;
 	}
+
+	int e = i2c_smbus_read_byte_data(client, COMMAND_ALS);
+	printk(KERN_DEBUG "VEML7700 ######################################### ALS VAL: %d\n",e);
+
+	e = i2c_smbus_read_byte_data(client, COMMAND_WHITE);
+	printk(KERN_DEBUG "VEML7700 ######################################### WHITE VAL: %d\n",e);
 
 	return 0;
 }
