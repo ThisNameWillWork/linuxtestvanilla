@@ -1,21 +1,21 @@
 /*
 ===============================================================================
-Driver Name		:		veml7700
-Author			:		ANDRE KILIAN
-License			:		GPL
-Description		:		LINUX DEVICE DRIVER PROJECT
+Driver Name    :     veml7700
+Author         :     ANDRE KILIAN
+License        :     GPL
+Description    :     LINUX DEVICE DRIVER PROJECT
 ===============================================================================
 */
 
 #include"veml7700.h"
 #include "chardev.h"
 
-#include <linux/kernel.h>	/* We're doing kernel work */
+#include <linux/kernel.h>  /* We're doing kernel work */
 #include <linux/module.h>
 #include <linux/i2c.h>
 #include <linux/err.h>
 #include <linux/delay.h>
-#include <asm/uaccess.h>	/* for get_user and put_user */
+#include <asm/uaccess.h>   /* for get_user and put_user */
 
 #include <linux/iio/iio.h>
 #include <linux/iio/sysfs.h>
@@ -26,10 +26,10 @@ Description		:		LINUX DEVICE DRIVER PROJECT
 #define COMMAND_ALS_SM      0x00   /**/ 
 #define COMMAND_ALS_WH      0x01   /**/ 
 #define COMMAND_ALS_WL      0x02   /**/ 
-#define COMMAND_PSM        	0x03   /**/ 
+#define COMMAND_PSM           0x03   /**/ 
 #define COMMAND_PSM_EN      0x03   /**/ 
-#define COMMAND_ALS        	0x04   /**/ 
-#define COMMAND_WHITE      	0x05   /**/ 
+#define COMMAND_ALS           0x04   /**/ 
+#define COMMAND_WHITE         0x05   /**/ 
 #define COMMAND_ALS_IF_L    0x06   /**/ 
 #define COMMAND_ALS_IF_H    0x06   /**/ 
 
@@ -78,18 +78,18 @@ static int device_open(struct inode *inode, struct file *file)
 	return 0;
 }
 
-static ssize_t device_read(struct file *file,	/* see include/linux/fs.h   */
-			   char __user * buffer,	/* buffer to be
+static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
+				char __user * buffer,   /* buffer to be
 							 * filled with data */
-			   size_t length,	/* length of the buffer     */
-			   loff_t * offset)
+				size_t length, /* length of the buffer     */
+				loff_t * offset)
 {
 	int bytes_read = 99;
 	return bytes_read;
 }
 
 static ssize_t device_write(struct file *file,
-	     const char __user * buffer, size_t length, loff_t * offset)
+		  const char __user * buffer, size_t length, loff_t * offset)
 {
 	int i = 0;
 	return i;
@@ -100,10 +100,7 @@ static int device_release(struct inode *inode, struct file *file)
 	return 0;
 }
 
-int device_unlocked_ioctl(struct inode *inode,	/* see include/linux/fs.h */
-		 struct file *file,	/* ditto */
-		 unsigned int ioctl_num,	/* number and param for ioctl */
-		 unsigned long ioctl_param)
+int device_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 {
 	int i;
 	char *temp;
@@ -112,7 +109,7 @@ int device_unlocked_ioctl(struct inode *inode,	/* see include/linux/fs.h */
 	/*
 	 * Switch according to the ioctl called
 	 */
-	switch (ioctl_num) {
+	switch (cmd) {
 	case IOCTL_SET_MSG:
 		/*
 		 * Receive a pointer to a message (in user space) and set that
@@ -143,12 +140,12 @@ int device_unlocked_ioctl(struct inode *inode,	/* see include/linux/fs.h */
 }
 
 static const struct file_operations veml7700_fops= {
-	.owner				= THIS_MODULE,
-	.read 	 = device_read,//
-	.write 	 = device_write,//
-	.unlocked_ioctl 	 = device_unlocked_ioctl,//
-	.open 	 = device_open,//
-	.release = device_release,	/* a.k.a. close */
+	.owner            = THIS_MODULE,
+	.read     = device_read,//
+	.write    = device_write,//
+	.ioctl    = device_ioctl,//
+	.open     = device_open,//
+	.release = device_release, /* a.k.a. close */
 };
 
 static int veml7700_probe(struct i2c_client *client ,
@@ -170,7 +167,7 @@ static int veml7700_probe(struct i2c_client *client ,
 	}
 
 	priv->client = client;
-	priv->irq = client->irq;	
+	priv->irq = client->irq;   
 	i2c_set_clientdata(client, priv);
 
 	cdev_init(&priv->cdev , &veml7700_fops);
@@ -211,12 +208,12 @@ static int veml7700_remove(struct i2c_client *client )
 
 static struct i2c_driver veml7700_i2c_driver = {
 	.driver = {
-		.name	= DRIVER_NAME,
-    	.owner	= THIS_MODULE,
-    },
-    .probe		= veml7700_probe,
-    .remove		= veml7700_remove,
-    .id_table	= veml7700_i2c_driver_ids,
+		.name = DRIVER_NAME,
+		.owner   = THIS_MODULE,
+	 },
+	 .probe     = veml7700_probe,
+	 .remove    = veml7700_remove,
+	 .id_table  = veml7700_i2c_driver_ids,
 };
 
 static int __init veml7700_init(void)
@@ -250,7 +247,7 @@ static int __init veml7700_init(void)
 }
 
 static void __exit veml7700_exit(void)
-{	
+{  
 	/* TODO Auto-generated Function Stub */
 
 	PINFO("EXIT\n");
