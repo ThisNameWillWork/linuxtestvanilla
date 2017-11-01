@@ -85,6 +85,7 @@ static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
 				loff_t * offset)
 {
 	int bytes_read = 99;
+	printk(KERN_DEBUG "VEML7700 ######################################### READ\n");
 	return bytes_read;
 }
 
@@ -92,6 +93,7 @@ static ssize_t device_write(struct file *file,
 		  const char __user * buffer, size_t length, loff_t * offset)
 {
 	int i = 0;
+	printk(KERN_DEBUG "VEML7700 ######################################### WRITE\n");
 	return i;
 }
 
