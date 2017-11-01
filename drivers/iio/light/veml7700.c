@@ -75,6 +75,7 @@ atomic_t dev_cnt = ATOMIC_INIT(VEML7700_FIRST_MINOR - 1);
 
 static int device_open(struct inode *inode, struct file *file)
 {
+	printk(KERN_DEBUG "VEML7700 ######################################### OPEN\n");
 	return 0;
 }
 
@@ -99,6 +100,7 @@ static ssize_t device_write(struct file *file,
 
 static int device_release(struct inode *inode, struct file *file)
 {
+	printk(KERN_DEBUG "VEML7700 ######################################### RELEASE\n");
 	return 0;
 }
 
@@ -190,6 +192,8 @@ static int veml7700_probe(struct i2c_client *client ,
 
 	int e = i2c_smbus_read_byte_data(client, COMMAND_ALS);
 	printk(KERN_DEBUG "VEML7700 ######################################### ALS VAL: %d\n",e);
+
+	e = 0;
 
 	e = i2c_smbus_read_byte_data(client, COMMAND_WHITE);
 	printk(KERN_DEBUG "VEML7700 ######################################### WHITE VAL: %d\n",e);
