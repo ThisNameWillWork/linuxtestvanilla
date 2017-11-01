@@ -146,7 +146,7 @@ static const struct file_operations veml7700_fops= {
 	.owner				= THIS_MODULE,
 	.read 	 = device_read,//
 	.write 	 = device_write,//
-	.ioctl 	 = device_unlocked_ioctl,//
+	.unlocked_ioctl 	 = device_unlocked_ioctl,//
 	.open 	 = device_open,//
 	.release = device_release,	/* a.k.a. close */
 };
