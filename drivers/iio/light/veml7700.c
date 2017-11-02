@@ -48,6 +48,8 @@ static dev_t dev_num;
 
 static struct class *veml7700_class;
 
+static struct i2c_private *priv;
+
 typedef struct i2c_private {
 
 	struct i2c_client *client;
@@ -89,12 +91,12 @@ static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
 	printk(KERN_DEBUG "VEML7700 ######################################### READ\n");
 
 
-	int e = i2c_smbus_read_byte_data(file, COMMAND_ALS);
+	int e = i2c_smbus_read_byte_data(priv->client, COMMAND_ALS);
 	printk(KERN_DEBUG "VEML7700 ######################################### ALS VAL: %d\n",e);
 
 	e = 0;
 
-	e = i2c_smbus_read_byte_data(file, COMMAND_WHITE);
+	e = i2c_smbus_read_byte_data(priv->client, COMMAND_WHITE);
 	printk(KERN_DEBUG "VEML7700 ######################################### WHITE VAL: %d\n",e);
 
 	return bytes_read;
@@ -127,7 +129,6 @@ static int veml7700_probe(struct i2c_client *client ,
 {
 	dev_t curr_dev;
 	unsigned int minor = atomic_inc_return(&dev_cnt);
-	struct i2c_private *priv;
 
 	PINFO("In i2c probe() function\n");
 
