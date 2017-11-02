@@ -89,12 +89,12 @@ static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
 	printk(KERN_DEBUG "VEML7700 ######################################### READ\n");
 
 
-	int e = i2c_smbus_read_byte_data(client, COMMAND_ALS);
+	int e = i2c_smbus_read_byte_data(file, COMMAND_ALS);
 	printk(KERN_DEBUG "VEML7700 ######################################### ALS VAL: %d\n",e);
 
 	e = 0;
 
-	e = i2c_smbus_read_byte_data(client, COMMAND_WHITE);
+	e = i2c_smbus_read_byte_data(file, COMMAND_WHITE);
 	printk(KERN_DEBUG "VEML7700 ######################################### WHITE VAL: %d\n",e);
 
 	return bytes_read;
