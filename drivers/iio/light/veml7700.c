@@ -26,10 +26,10 @@ Description    :     LINUX DEVICE DRIVER PROJECT
 #define COMMAND_ALS_SM      0x00   /**/ 
 #define COMMAND_ALS_WH      0x01   /**/ 
 #define COMMAND_ALS_WL      0x02   /**/ 
-#define COMMAND_PSM           0x03   /**/ 
+#define COMMAND_PSM         0x03   /**/ 
 #define COMMAND_PSM_EN      0x03   /**/ 
-#define COMMAND_ALS           0x04   /**/ 
-#define COMMAND_WHITE         0x05   /**/ 
+#define COMMAND_ALS         0x04   /**/ 
+#define COMMAND_WHITE       0x05   /**/ 
 #define COMMAND_ALS_IF_L    0x06   /**/ 
 #define COMMAND_ALS_IF_H    0x06   /**/ 
 
@@ -76,6 +76,7 @@ atomic_t dev_cnt = ATOMIC_INIT(VEML7700_FIRST_MINOR - 1);
 static int device_open(struct inode *inode, struct file *file)
 {
 	printk(KERN_DEBUG "VEML7700 ######################################### OPEN\n");
+	printf("I already told you times Hello world!\n");
 	return 0;
 }
 
