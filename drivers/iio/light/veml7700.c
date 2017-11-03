@@ -77,6 +77,7 @@ atomic_t dev_cnt = ATOMIC_INIT(VEML7700_FIRST_MINOR - 1);
 
 static int device_open(struct inode *inode, struct file *file)
 {
+	printk(KERN_DEBUG "-------------------------------------------------------------\n");
 	printk(KERN_DEBUG "VEML7700 ######################################### OPEN\n");
 	return 0;
 }
@@ -90,23 +91,51 @@ static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
 	int bytes_read = 99;
 	printk(KERN_DEBUG "VEML7700 ######################################### READ\n");
 
-	int e,x = -99;
+	//int e,x 		= -99;
+	int tries 	= 20;
+	int ret 		= 0;
+	//__be16 buf;
 
-	e = i2c_smbus_read_byte_data(priv->client, COMMAND_ALS);
-	printk(KERN_DEBUG "VEML7700 ######################################### ALS VAL: %d\n",e);
+	//ret = i2c_smbus_write_byte_data(data->client, COMMAND_ALS, req_mask);
+	ret = i2c_smbus_write_byte(data->client, COMMAND_ALS);
+	if (ret < 0)
+		return ret;
 
-	e = -99;
+	/* wait for data to become ready */
+	while (tries--) {
+		ret = i2c_smbus_read_byte_data(data->client, COMMAND_ALS);
+		if (ret < 0)
+			return ret;
+		msleep(20); /* measurement takes up to 100 ms */
+	}
 
-	e = i2c_smbus_read_byte_data(priv->client, COMMAND_WHITE);
-	printk(KERN_DEBUG "VEML7700 ######################################### WHITE VAL: %d\n",e);
+	if (tries < 0) {
+		dev_err(&priv->device,"vcnl4000_measure() failed, data not ready\n");
+		return -EIO;
+	}
+
+	// ret = i2c_smbus_read_i2c_block_data(data->client, data_reg, sizeof(buf), (u8 *) &buf);
+	// if (ret < 0)
+	// 	return ret;
+
+	// ret = i2c_smbus_read_i2c_block_data(data->client,
+	// 	data_reg, sizeof(buf), (u8 *) &buf);
+
+	// e = i2c_smbus_read_byte_data(priv->client, COMMAND_ALS);
+	// printk(KERN_DEBUG "VEML7700 ######################################### ALS VAL: %d\n",e);
+
+	// e = -99;
+
+	// e = i2c_smbus_read_byte_data(priv->client, COMMAND_WHITE);
+	// printk(KERN_DEBUG "VEML7700 ######################################### WHITE VAL: %d\n",e);
 
 	
-	x = i2c_smbus_read_word_data(priv->client, COMMAND_ALS);
-	printk(KERN_DEBUG "VEML7700 ######################################### ALS VAL: %d\n",x);
+	// x = i2c_smbus_read_word_data(priv->client, COMMAND_ALS);
+	// printk(KERN_DEBUG "VEML7700 ######################################### ALS VAL: %d\n",x);
 
-	x = -99;
-	x = i2c_smbus_read_word_data(priv->client, COMMAND_WHITE);
-	printk(KERN_DEBUG "VEML7700 ######################################### WHITE VAL: %d\n",x);
+	// x = -99;
+	// x = i2c_smbus_read_word_data(priv->client, COMMAND_WHITE);
+	// printk(KERN_DEBUG "VEML7700 ######################################### WHITE VAL: %d\n",x);
 
 	return bytes_read;
 }
