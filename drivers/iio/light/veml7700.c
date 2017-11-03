@@ -104,6 +104,7 @@ static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
 
 	/* wait for data to become ready */
 	while (tries--) {
+		printk(KERN_DEBUG "VEML7700 ######################################### TRIES: %d\n",tries);
 		ret = i2c_smbus_read_byte_data(priv->client, COMMAND_ALS);
 		if (ret < 0)
 			printk(KERN_DEBUG "VEML7700 ######################################### RET < 0 2\n");
