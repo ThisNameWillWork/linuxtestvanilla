@@ -316,26 +316,26 @@ static int __init veml7700_init(void)
 	}
 
 
-  // // write initial state to VEML7700
-  // register_cache[0] = ( (uint16_t(ALS_GAIN_x2) << ALS_SM_SHIFT) |
-  //                       (uint16_t(ALS_INTEGRATION_100ms) << ALS_IT_SHIFT) |
-  //                       (uint16_t(ALS_PERSISTENCE_1) << ALS_PERS_SHIFT) |
-  //                       (uint16_t(0) << ALS_INT_EN_SHIFT) |
-  //                       (uint16_t(0) << ALS_SD_SHIFT) );
-  // register_cache[1] = 0x0000;
-  // register_cache[2] = 0xffff;
-  // register_cache[3] = ( (uint16_t(ALS_POWER_MODE_3) << PSM_SHIFT) | (uint16_t(0) << PSM_EN_SHIFT) );
+  // write initial state to VEML7700
+  register_cache[0] = ( (uint16_t(ALS_GAIN_x2) << ALS_SM_SHIFT) |
+                        (uint16_t(ALS_INTEGRATION_100ms) << ALS_IT_SHIFT) |
+                        (uint16_t(ALS_PERSISTENCE_1) << ALS_PERS_SHIFT) |
+                        (uint16_t(0) << ALS_INT_EN_SHIFT) |
+                        (uint16_t(0) << ALS_SD_SHIFT) );
+  register_cache[1] = 0x0000;
+  register_cache[2] = 0xffff;
+  register_cache[3] = ( (uint16_t(ALS_POWER_MODE_3) << PSM_SHIFT) | (uint16_t(0) << PSM_EN_SHIFT) );
 
-  // int x = 99;
+  int x = 99;
 
-  // x = i2c_smbus_write_byte_data(priv->client, 0x00, register_cache[0]);
-  // printk(KERN_DEBUG "VEML7700 ######################################### CONF0: %d\n",x);
-  // x = i2c_smbus_write_byte_data(priv->client, 0x01, register_cache[1]);
-  // printk(KERN_DEBUG "VEML7700 ######################################### CONF1: %d\n",x);
-  // x = i2c_smbus_write_byte_data(priv->client, 0x02, register_cache[2]);
-  // printk(KERN_DEBUG "VEML7700 ######################################### CONF2: %d\n",x);
-  // x = i2c_smbus_write_byte_data(priv->client, 0x03, register_cache[3]);
-  // printk(KERN_DEBUG "VEML7700 ######################################### CONF3: %d\n",x);
+  x = i2c_smbus_write_byte_data(priv->client, 0x00, register_cache[0]);
+  printk(KERN_DEBUG "VEML7700 ######################################### CONF0: %d\n",x);
+  x = i2c_smbus_write_byte_data(priv->client, 0x01, register_cache[1]);
+  printk(KERN_DEBUG "VEML7700 ######################################### CONF1: %d\n",x);
+  x = i2c_smbus_write_byte_data(priv->client, 0x02, register_cache[2]);
+  printk(KERN_DEBUG "VEML7700 ######################################### CONF2: %d\n",x);
+  x = i2c_smbus_write_byte_data(priv->client, 0x03, register_cache[3]);
+  printk(KERN_DEBUG "VEML7700 ######################################### CONF3: %d\n",x);
 
 
 	PINFO("INIT\n");
