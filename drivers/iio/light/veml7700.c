@@ -8,7 +8,7 @@ Description    :     LINUX DEVICE DRIVER PROJECT
 */
 
 #include"veml7700.h"
-#include "chardev.h"
+//#include "chardev.h"
 
 #include <linux/kernel.h>  /* We're doing kernel work */
 #include <linux/module.h>
@@ -38,6 +38,56 @@ Description    :     LINUX DEVICE DRIVER PROJECT
 #define VEML7700_NODE_NAME "veml7700"
 #define VEML7700_BUFF_SIZE 1024
 #define SUCCESS 0
+
+
+
+  enum als_gain_t
+  { ALS_GAIN_x1 = 0x0,    // x 1
+    ALS_GAIN_x2 = 0x1,    // x 2
+    ALS_GAIN_d8 = 0x2,    // x 1/8
+    ALS_GAIN_d4 = 0x3 };  // x 1/4
+
+  enum als_itime_t
+  { ALS_INTEGRATION_25ms = 0xc,
+    ALS_INTEGRATION_50ms = 0x8,
+    ALS_INTEGRATION_100ms = 0x0,
+    ALS_INTEGRATION_200ms = 0x1,
+    ALS_INTEGRATION_400ms = 0x2,
+    ALS_INTEGRATION_800ms = 0x3 };
+
+  enum als_persist_t
+  { ALS_PERSISTENCE_1 = 0x0,
+    ALS_PERSISTENCE_2 = 0x1,
+    ALS_PERSISTENCE_4 = 0x2,
+    ALS_PERSISTENCE_8 = 0x3 };
+
+  enum als_powmode_t
+  { ALS_POWER_MODE_1 = 0x0,
+    ALS_POWER_MODE_2 = 0x1,
+    ALS_POWER_MODE_3 = 0x2,
+    ALS_POWER_MODE_4 = 0x3 };
+
+  enum { STATUS_OK = 0, STATUS_ERROR = 0xff };
+
+  //########################################################################
+
+  enum { I2C_ADDRESS = 0x10 };
+  enum { COMMAND_ALS_SM = 0x00, ALS_SM_MASK = 0x1800, ALS_SM_SHIFT = 11 };
+  enum { COMMAND_ALS_IT = 0x00, ALS_IT_MASK = 0x03c0, ALS_IT_SHIFT = 6 };
+  enum { COMMAND_ALS_PERS = 0x00, ALS_PERS_MASK = 0x0030, ALS_PERS_SHIFT = 4 };
+  enum { COMMAND_ALS_INT_EN = 0x00, ALS_INT_EN_MASK = 0x0002,
+         ALS_INT_EN_SHIFT = 1 };
+  enum { COMMAND_ALS_SD = 0x00,  ALS_SD_MASK = 0x0001, ALS_SD_SHIFT = 0 };
+  enum { COMMAND_ALS_WH = 0x01 };
+  enum { COMMAND_ALS_WL = 0x02 };
+  enum { COMMAND_PSM = 0x03, PSM_MASK = 0x0006, PSM_SHIFT = 1 };
+  enum { COMMAND_PSM_EN = 0x03, PSM_EN_MASK = 0x0001, PSM_EN_SHIFT = 0 };
+  enum { COMMAND_ALS = 0x04 };
+  enum { COMMAND_WHITE = 0x05 };
+  enum { COMMAND_ALS_IF_L = 0x06, ALS_IF_L_MASK = 0x8000, ALS_IF_L_SHIFT = 15 };
+enum { COMMAND_ALS_IF_H = 0x06, ALS_IF_H_MASK = 0x4000, ALS_IF_H_SHIFT = 14 };
+
+
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("ANDRE KILIAN");
@@ -91,28 +141,32 @@ static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
 	int bytes_read = 99;
 	printk(KERN_DEBUG "VEML7700 ######################################### READ\n");
 
-	//int e,x 		= -99;
-	int tries 	= 20;
 	int ret 		= 0;
-	//__be16 buf;
+	ret = i2c_smbus_read_word_data(priv->client, COMMAND_ALS);
+	printk(KERN_DEBUG "VEML7700 ######################################### RET: %d\n",ret);
 
-	//ret = i2c_smbus_write_byte_data(data->client, COMMAND_ALS, req_mask);
-	ret = i2c_smbus_write_byte(priv->client, COMMAND_ALS);
-	if (ret < 0)
-		printk(KERN_DEBUG "VEML7700 ######################################### RET < 0 1\n");
-		return ret;
+	// //int e,x 		= -99;
+	// int tries 	= 20;
+	// int ret 		= 0;
+	// //__be16 buf;
 
-	/* wait for data to become ready */
-	while (tries--) {
-		printk(KERN_DEBUG "VEML7700 ######################################### TRIES: %d\n",tries);
-		ret = i2c_smbus_read_byte_data(priv->client, COMMAND_ALS);
-		if (ret < 0)
-			printk(KERN_DEBUG "VEML7700 ######################################### RET < 0 2\n");
-			return ret;
-		msleep(20); /* measurement takes up to 100 ms */
-	}
+	// //ret = i2c_smbus_write_byte_data(data->client, COMMAND_ALS, req_mask);
+	// ret = i2c_smbus_write_byte(priv->client, COMMAND_ALS);
+	// if (ret < 0)
+	// 	printk(KERN_DEBUG "VEML7700 ######################################### RET < 0 1\n");
+	// 	return ret;
 
- 	printk(KERN_DEBUG "VEML7700 ######################################### RET VAL: %d\n",ret);
+	// /* wait for data to become ready */
+	// while (tries--) {
+	// 	printk(KERN_DEBUG "VEML7700 ######################################### TRIES: %d\n",tries);
+	// 	ret = i2c_smbus_read_byte_data(priv->client, COMMAND_ALS);
+	// 	if (ret < 0)
+	// 		printk(KERN_DEBUG "VEML7700 ######################################### RET < 0 2\n");
+	// 		return ret;
+	// 	msleep(20); /* measurement takes up to 100 ms */
+	// }
+
+ // 	printk(KERN_DEBUG "VEML7700 ######################################### RET VAL: %d\n",ret);
 
 	// if (tries < 0) {
 	// 	dev_err(&priv->device,"vcnl4000_measure() failed, data not ready\n");
@@ -201,13 +255,13 @@ static int veml7700_probe(struct i2c_client *client ,
 		return -1;
 	}
 
-	int e = i2c_smbus_read_byte_data(client, COMMAND_ALS);
-	printk(KERN_DEBUG "VEML7700 ######################################### ALS VAL: %d\n",e);
+	// int e = i2c_smbus_read_byte_data(client, COMMAND_ALS);
+	// printk(KERN_DEBUG "VEML7700 ######################################### ALS VAL: %d\n",e);
 
-	e = 0;
+	// e = 0;
 
-	e = i2c_smbus_read_byte_data(client, COMMAND_WHITE);
-	printk(KERN_DEBUG "VEML7700 ######################################### WHITE VAL: %d\n",e);
+	// e = i2c_smbus_read_byte_data(client, COMMAND_WHITE);
+	// printk(KERN_DEBUG "VEML7700 ######################################### WHITE VAL: %d\n",e);
 
 	return 0;
 }
@@ -260,6 +314,29 @@ static int __init veml7700_init(void)
 		PERR("Adding driver to i2c core failed\n");
 		return res;
 	}
+
+
+  // write initial state to VEML7700
+  register_cache[0] = ( (uint16_t(ALS_GAIN_x2) << ALS_SM_SHIFT) |
+                        (uint16_t(ALS_INTEGRATION_100ms) << ALS_IT_SHIFT) |
+                        (uint16_t(ALS_PERSISTENCE_1) << ALS_PERS_SHIFT) |
+                        (uint16_t(0) << ALS_INT_EN_SHIFT) |
+                        (uint16_t(0) << ALS_SD_SHIFT) );
+  register_cache[1] = 0x0000;
+  register_cache[2] = 0xffff;
+  register_cache[3] = ( (uint16_t(ALS_POWER_MODE_3) << PSM_SHIFT) | (uint16_t(0) << PSM_EN_SHIFT) );
+
+  int x = 99;
+
+  x = i2c_smbus_write_byte_data(priv->client, 0x00, register_cache[0]);
+  printk(KERN_DEBUG "VEML7700 ######################################### CONF0: %d\n",x);
+  x = i2c_smbus_write_byte_data(priv->client, 0x01, register_cache[1]);
+  printk(KERN_DEBUG "VEML7700 ######################################### CONF1: %d\n",x);
+  x = i2c_smbus_write_byte_data(priv->client, 0x02, register_cache[2]);
+  printk(KERN_DEBUG "VEML7700 ######################################### CONF2: %d\n",x);
+  x = i2c_smbus_write_byte_data(priv->client, 0x03, register_cache[3]);
+  printk(KERN_DEBUG "VEML7700 ######################################### CONF3: %d\n",x);
+
 
 	PINFO("INIT\n");
 
