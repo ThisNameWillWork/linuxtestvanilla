@@ -97,22 +97,26 @@ static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
 	//__be16 buf;
 
 	//ret = i2c_smbus_write_byte_data(data->client, COMMAND_ALS, req_mask);
-	ret = i2c_smbus_write_byte(data->client, COMMAND_ALS);
+	ret = i2c_smbus_write_byte(priv->client, COMMAND_ALS);
 	if (ret < 0)
+		printk(KERN_DEBUG "VEML7700 ######################################### RET < 0 1\n");
 		return ret;
 
 	/* wait for data to become ready */
 	while (tries--) {
-		ret = i2c_smbus_read_byte_data(data->client, COMMAND_ALS);
+		ret = i2c_smbus_read_byte_data(priv->client, COMMAND_ALS);
 		if (ret < 0)
+			printk(KERN_DEBUG "VEML7700 ######################################### RET < 0 2\n");
 			return ret;
 		msleep(20); /* measurement takes up to 100 ms */
 	}
 
-	if (tries < 0) {
-		dev_err(&priv->device,"vcnl4000_measure() failed, data not ready\n");
-		return -EIO;
-	}
+ 	printk(KERN_DEBUG "VEML7700 ######################################### RET VAL: %d\n",ret);
+
+	// if (tries < 0) {
+	// 	dev_err(&priv->device,"vcnl4000_measure() failed, data not ready\n");
+	// 	return -EIO;
+	// }
 
 	// ret = i2c_smbus_read_i2c_block_data(data->client, data_reg, sizeof(buf), (u8 *) &buf);
 	// if (ret < 0)
