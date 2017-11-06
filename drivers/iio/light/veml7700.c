@@ -198,9 +198,37 @@ static uint16_t ALS_POWER_MODE_2 = 0x1;
 static uint16_t ALS_POWER_MODE_3 = 0x2;
 static uint16_t ALS_POWER_MODE_4 = 0x3;
 
+	  // if(gain==0x00)
+	  //   factor1 = 1.f;
+	  // else if(gain==0x01)
+	  //   factor1 = 0.5f;
+	  // else if(gain==0x02)
+	  //   factor1 = 8.f;
+	  // else if(gain==0x03)
+	  //   factor1 = 4.f;
+	  // else
+	  //   factor1 = 1.f;
+
+
+	  // if(inttime==0xc)
+	  //   factor2 = 0.2304f;
+	  // else if(inttime==0x8)
+	  //   factor2 = 0.1152f;
+	  // else if(inttime==0x0)
+	  //   factor2 = 0.0576f;
+	  // else if(inttime==0x1)
+	  //   factor2 = 0.0288f;
+	  // else if(inttime==0x2)
+	  //   factor2 = 0.0144f;
+	  // else if(inttime==0x3)
+	  //   factor2 = 0.0072f;
+	  // else
+	  //   factor2 = 0.2304f;
+
+	
 
 	printk(KERN_DEBUG "VEML7700 ######################################### LUX: %d * %f * %f = \n",ret,factor1,factor2);
-	ret = ret * factor1 * factor2;
+	ret = ret * 0.0288f;
 	printk(KERN_DEBUG "VEML7700 ######################################### RET: %d\n",ret);
 
 
