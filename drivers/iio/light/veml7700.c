@@ -171,49 +171,51 @@ static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
 	ret = i2c_smbus_read_word_data(priv->client, COMMAND_ALS);
 	printk(KERN_DEBUG "VEML7700 ######################################### RET: %d\n",ret);
 
-	switch(gain){
-	  case ALS_GAIN_x1:
+
+	  if(gain==ALS_GAIN_x1)
 	    factor1 = 1.f;
-	    break;
-	  case ALS_GAIN_x2:
+
+	  else if(gain==ALS_GAIN_x2)
 	    factor1 = 0.5f;
-	    break;
-	  case ALS_GAIN_d8:
+
+	  else if(gain==ALS_GAIN_d8)
 	    factor1 = 8.f;
-	    break;
-	  case ALS_GAIN_d4:
+
+	  else if(gain==ALS_GAIN_d4)
 	    factor1 = 4.f;
-	    break;
-	  default:
+
+	  else
 	    factor1 = 1.f;
-	    break;
-	  }
 
-	  switch(inttime){
-	  case ALS_INTEGRATION_25ms:
+
+
+
+	  if(inttime==ALS_INTEGRATION_25ms)
 	    factor2 = 0.2304f;
-	    break;
-	  case ALS_INTEGRATION_50ms:
+
+	  else if(inttime==ALS_INTEGRATION_50ms)
 	    factor2 = 0.1152f;
-	    break;
-	  case ALS_INTEGRATION_100ms:
-	    factor2 = 0.0576f;
-	    break;
-	  case ALS_INTEGRATION_200ms:
-	    factor2 = 0.0288f;
-	    break;
-	  case ALS_INTEGRATION_400ms:
-	    factor2 = 0.0144f;
-	    break;
-	  case ALS_INTEGRATION_800ms:
-	    factor2 = 0.0072f;
-	    break;
-	  default:
-	    factor2 = 0.2304f;
-	    break;
-	}
 
+	  else if(inttime==ALS_INTEGRATION_100ms)
+	    factor2 = 0.0576f;
+
+	  else if(inttime==ALS_INTEGRATION_200ms)
+	    factor2 = 0.0288f;
+
+	  else if(inttime==ALS_INTEGRATION_400ms)
+	    factor2 = 0.0144f;
+
+	  else if(inttime==ALS_INTEGRATION_800ms)
+	    factor2 = 0.0072f;
+
+	  else
+	    factor2 = 0.2304f;
+
+
+	printk(KERN_DEBUG "VEML7700 ######################################### LUX: %d * %f * %f = \n",ret,factor1,factor2);
 	ret = ret * factor1 * factor2;
+	printk(KERN_DEBUG "VEML7700 ######################################### RET: %d\n",ret);
+
 
 	// //int e,x 		= -99;
 	// int tries 	= 20;
