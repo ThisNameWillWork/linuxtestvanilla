@@ -175,37 +175,37 @@ static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
 
 
 
-	  if(gain==0x00)
-	    factor1 = 1.f;
-	  else if(gain==0x01)
-	    factor1 = 0.5f;
-	  else if(gain==0x02)
-	    factor1 = 8.f;
-	  else if(gain==0x03)
-	    factor1 = 4.f;
-	  else
-	    factor1 = 1.f;
+	  // if(gain==0x00)
+	  //   factor1 = 1.f;
+	  // else if(gain==0x01)
+	  //   factor1 = 0.5f;
+	  // else if(gain==0x02)
+	  //   factor1 = 8.f;
+	  // else if(gain==0x03)
+	  //   factor1 = 4.f;
+	  // else
+	  //   factor1 = 1.f;
 
 
-	  if(inttime==0xc)
-	    factor2 = 0.2304f;
-	  else if(inttime==0x8)
-	    factor2 = 0.1152f;
-	  else if(inttime==0x0)
-	    factor2 = 0.0576f;
-	  else if(inttime==0x1)
-	    factor2 = 0.0288f;
-	  else if(inttime==0x2)
-	    factor2 = 0.0144f;
-	  else if(inttime==0x3)
-	    factor2 = 0.0072f;
-	  else
-	    factor2 = 0.2304f;
+	  // if(inttime==0xc)
+	  //   factor2 = 0.2304f;
+	  // else if(inttime==0x8)
+	  //   factor2 = 0.1152f;
+	  // else if(inttime==0x0)
+	  //   factor2 = 0.0576f;
+	  // else if(inttime==0x1)
+	  //   factor2 = 0.0288f;
+	  // else if(inttime==0x2)
+	  //   factor2 = 0.0144f;
+	  // else if(inttime==0x3)
+	  //   factor2 = 0.0072f;
+	  // else
+	  //   factor2 = 0.2304f;
 
 	
 
 	printk(KERN_DEBUG "VEML7700 ######################################### LUX: %d * %f * %f = \n",ret,factor1,factor2);
-	ret = (float)ret * 0.0288f;
+	ret = (int)((float)ret * 0.0288f);
 	printk(KERN_DEBUG "VEML7700 ######################################### RET: %d\n",ret);
 
 
