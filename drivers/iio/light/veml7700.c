@@ -39,32 +39,32 @@ Description    :     LINUX DEVICE DRIVER PROJECT
 #define VEML7700_BUFF_SIZE 1024
 
 uint16_t gain;
-#define uint16_t ZERO  0  
-#define uint16_t ALS_GAIN_x1  0x00  // x 1
-#define uint16_t ALS_GAIN_x2  0x01  // x 2
-#define uint16_t ALS_GAIN_d8  0x02   // x 1/8
-#define uint16_t ALS_GAIN_d4  0x03   // x 1/4
+static uint16_t ZERO = 0;  
+static uint16_t ALS_GAIN_x1 = 0x00;  // x 1
+static uint16_t ALS_GAIN_x2 = 0x01;  // x 2
+static uint16_t ALS_GAIN_d8 = 0x02;  // x 1/8
+static uint16_t ALS_GAIN_d4 = 0x03;  // x 1/4
 
 uint16_t inttime;
-#define uint16_t ALS_INTEGRATION_25ms  0xc 
-#define uint16_t ALS_INTEGRATION_50ms  0x8 
-#define uint16_t ALS_INTEGRATION_100ms  0x0 
-#define uint16_t ALS_INTEGRATION_200ms  0x1 
-#define uint16_t ALS_INTEGRATION_400ms  0x2 
-#define uint16_t ALS_INTEGRATION_800ms  0x3 
+static uint16_t ALS_INTEGRATION_25ms = 0xc;
+static uint16_t ALS_INTEGRATION_50ms = 0x8;
+static uint16_t ALS_INTEGRATION_100ms = 0x0;
+static uint16_t ALS_INTEGRATION_200ms = 0x1;
+static uint16_t ALS_INTEGRATION_400ms = 0x2;
+static uint16_t ALS_INTEGRATION_800ms = 0x3;
 
-#define uint16_t ALS_PERSISTENCE_1  0x0 
-#define uint16_t ALS_PERSISTENCE_2  0x1 
-#define uint16_t ALS_PERSISTENCE_4  0x2 
-#define uint16_t ALS_PERSISTENCE_8  0x3 
+static uint16_t ALS_PERSISTENCE_1 = 0x0;
+static uint16_t ALS_PERSISTENCE_2 = 0x1;
+static uint16_t ALS_PERSISTENCE_4 = 0x2;
+static uint16_t ALS_PERSISTENCE_8 = 0x3;
 
-#define uint16_t ALS_POWER_MODE_1  0x0 
-#define uint16_t ALS_POWER_MODE_2  0x1 
-#define uint16_t ALS_POWER_MODE_3  0x2 
-#define uint16_t ALS_POWER_MODE_4  0x3 
+static uint16_t ALS_POWER_MODE_1 = 0x0;
+static uint16_t ALS_POWER_MODE_2 = 0x1;
+static uint16_t ALS_POWER_MODE_3 = 0x2;
+static uint16_t ALS_POWER_MODE_4 = 0x3;
 
-#define uint16_t STATUS_OK  0 
-#define uint16_t STATUS_ERROR  0xff 
+static uint16_t STATUS_OK = 0;
+static uint16_t STATUS_ERROR = 0xff;
 
   //########################################################################
 
@@ -173,47 +173,59 @@ static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
 	ret = i2c_smbus_read_word_data(priv->client, COMMAND_ALS);
 	printk(KERN_DEBUG "VEML7700 ######################################### RET: %d\n",ret);
 
-	switch(gain){
-	  case ALS_GAIN_x1:
-	    factor1 = 1.f;
-	    break;
-	  case ALS_GAIN_x2:
-	    factor1 = 0.5f;
-	    break;
-	  case ALS_GAIN_d8:
-	    factor1 = 8.f;
-	    break;
-	  case ALS_GAIN_d4:
-	    factor1 = 4.f;
-	    break;
-	  default:
-	    factor1 = 1.f;
-	    break;
-	  }
 
-	  switch(inttime){
-	  case ALS_INTEGRATION_25ms:
+static uint16_t ZERO = 0;  
+static uint16_t ALS_GAIN_x1 = 0x00;  // x 1
+static uint16_t ALS_GAIN_x2 = 0x01;  // x 2
+static uint16_t ALS_GAIN_d8 = 0x02;  // x 1/8
+static uint16_t ALS_GAIN_d4 = 0x03;  // x 1/4
+
+uint16_t inttime;
+static uint16_t ALS_INTEGRATION_25ms = 0xc;
+static uint16_t ALS_INTEGRATION_50ms = 0x8;
+static uint16_t ALS_INTEGRATION_100ms = 0x0;
+static uint16_t ALS_INTEGRATION_200ms = 0x1;
+static uint16_t ALS_INTEGRATION_400ms = 0x2;
+static uint16_t ALS_INTEGRATION_800ms = 0x3;
+
+static uint16_t ALS_PERSISTENCE_1 = 0x0;
+static uint16_t ALS_PERSISTENCE_2 = 0x1;
+static uint16_t ALS_PERSISTENCE_4 = 0x2;
+static uint16_t ALS_PERSISTENCE_8 = 0x3;
+
+static uint16_t ALS_POWER_MODE_1 = 0x0;
+static uint16_t ALS_POWER_MODE_2 = 0x1;
+static uint16_t ALS_POWER_MODE_3 = 0x2;
+static uint16_t ALS_POWER_MODE_4 = 0x3;
+
+	  if(gain==0x00)
+	    factor1 = 1.f;
+	  else if(gain==0x01)
+	    factor1 = 0.5f;
+	  else if(gain==0x02)
+	    factor1 = 8.f;
+	  else if(gain==0x03)
+	    factor1 = 4.f;
+	  else
+	    factor1 = 1.f;
+
+
+	  if(inttime==0xc)
 	    factor2 = 0.2304f;
-	    break;
-	  case ALS_INTEGRATION_50ms:
+	  else if(inttime==0x8)
 	    factor2 = 0.1152f;
-	    break;
-	  case ALS_INTEGRATION_100ms:
+	  else if(inttime==0x0)
 	    factor2 = 0.0576f;
-	    break;
-	  case ALS_INTEGRATION_200ms:
+	  else if(inttime==0x1)
 	    factor2 = 0.0288f;
-	    break;
-	  case ALS_INTEGRATION_400ms:
+	  else if(inttime==0x2)
 	    factor2 = 0.0144f;
-	    break;
-	  case ALS_INTEGRATION_800ms:
+	  else if(inttime==0x3)
 	    factor2 = 0.0072f;
-	    break;
-	  default:
+	  else
 	    factor2 = 0.2304f;
-	    break;
-	}
+
+	
 
 	printk(KERN_DEBUG "VEML7700 ######################################### LUX: %d * %f * %f = \n",ret,factor1,factor2);
 	ret = ret * factor1 * factor2;
