@@ -23,7 +23,7 @@ Description    :     LINUX DEVICE DRIVER PROJECT
 #define veml7700_DRV_NAME "veml7700"
 #define DEBUG 1
 
-#define COMMAND_ALS_SM 		 0x00   /**/
+#define COMMAND_ALS_SM 		0x00   /**/
 #define COMMAND_ALS_WH      0x01   /**/
 #define COMMAND_ALS_WL      0x02   /**/
 #define COMMAND_PSM         0x03   /**/
@@ -38,13 +38,14 @@ Description    :     LINUX DEVICE DRIVER PROJECT
 #define VEML7700_NODE_NAME "veml7700"
 #define VEML7700_BUFF_SIZE 1024
 
-
+uint16_t gain;
 static uint16_t ZERO = 0;  
 static uint16_t ALS_GAIN_x1 = 0x00;  // x 1
 static uint16_t ALS_GAIN_x2 = 0x01;  // x 2
 static uint16_t ALS_GAIN_d8 = 0x02;  // x 1/8
 static uint16_t ALS_GAIN_d4 = 0x03;  // x 1/4
 
+uint16_t inttime;
 static uint16_t ALS_INTEGRATION_25ms = 0xc;
 static uint16_t ALS_INTEGRATION_50ms = 0x8;
 static uint16_t ALS_INTEGRATION_100ms = 0x0;
@@ -161,6 +162,7 @@ static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
 				loff_t * offset)
 {
 	int bytes_read,ret;
+	float factor1,factor2;
 	bytes_read	= 99;
 	ret 			= 0;
 
@@ -168,6 +170,50 @@ static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
 
 	ret = i2c_smbus_read_word_data(priv->client, COMMAND_ALS);
 	printk(KERN_DEBUG "VEML7700 ######################################### RET: %d\n",ret);
+
+	switch(gain){
+	  case ALS_GAIN_x1:
+	    factor1 = 1.f;
+	    break;
+	  case ALS_GAIN_x2:
+	    factor1 = 0.5f;
+	    break;
+	  case ALS_GAIN_d8:
+	    factor1 = 8.f;
+	    break;
+	  case ALS_GAIN_d4:
+	    factor1 = 4.f;
+	    break;
+	  default:
+	    factor1 = 1.f;
+	    break;
+	  }
+
+	  switch(inttime){
+	  case ALS_INTEGRATION_25ms:
+	    factor2 = 0.2304f;
+	    break;
+	  case ALS_INTEGRATION_50ms:
+	    factor2 = 0.1152f;
+	    break;
+	  case ALS_INTEGRATION_100ms:
+	    factor2 = 0.0576f;
+	    break;
+	  case ALS_INTEGRATION_200ms:
+	    factor2 = 0.0288f;
+	    break;
+	  case ALS_INTEGRATION_400ms:
+	    factor2 = 0.0144f;
+	    break;
+	  case ALS_INTEGRATION_800ms:
+	    factor2 = 0.0072f;
+	    break;
+	  default:
+	    factor2 = 0.2304f;
+	    break;
+	}
+
+	ret = ret * factor1 * factor2;
 
 	// //int e,x 		= -99;
 	// int tries 	= 20;
@@ -220,7 +266,7 @@ static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
 	// x = i2c_smbus_read_word_data(priv->client, COMMAND_WHITE);
 	// printk(KERN_DEBUG "VEML7700 ######################################### WHITE VAL: %d\n",x);
 
-	return bytes_read;
+	return ret;
 }
 
 static ssize_t device_write(struct file *file,
@@ -320,10 +366,11 @@ static int __init veml7700_init(void)
 
 	int res,x;
 	char register_cache[4];
-	char test;
 	x = 99;
 
-	test = ALS_GAIN_x2<<ALS_SM_SHIFT;
+	//Configuration VEML7700
+	gain = ALS_GAIN_x2;
+	inttime = ALS_INTEGRATION_100ms;
 
 	res = alloc_chrdev_region(&dev_num,VEML7700_FIRST_MINOR,VEML7700_N_MINORS ,DRIVER_NAME);
 	if(res) {
@@ -345,8 +392,8 @@ static int __init veml7700_init(void)
 	}
 
   // write initial state to VEML7700
-  register_cache[0] = ( ALS_GAIN_x2<<ALS_SM_SHIFT |
-                        ALS_INTEGRATION_100ms<<ALS_IT_SHIFT |
+  register_cache[0] = ( gain<<ALS_SM_SHIFT |
+                        inttime<<ALS_IT_SHIFT |
                         ALS_PERSISTENCE_1<<ALS_PERS_SHIFT |
                         ZERO<<ALS_INT_EN_SHIFT |
                         ZERO<<ALS_SD_SHIFT);
