@@ -160,10 +160,12 @@ static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
 				size_t length, /* length of the buffer     */
 				loff_t * offset)
 {
-	int bytes_read = 99;
+	int bytes_read,ret; 
+	bytes_read	= 99;
+	ret 			= 0;
+
 	printk(KERN_DEBUG "VEML7700 ######################################### READ\n");
 
-	int ret 		= 0;
 	ret = i2c_smbus_read_word_data(priv->client, COMMAND_ALS);
 	printk(KERN_DEBUG "VEML7700 ######################################### RET: %d\n",ret);
 
@@ -317,6 +319,7 @@ static int __init veml7700_init(void)
 	/* TODO Auto-generated Function Stub */
 
 	int res;
+	char register_cache[4];
 
 	res = alloc_chrdev_region(&dev_num,VEML7700_FIRST_MINOR,VEML7700_N_MINORS ,DRIVER_NAME);
 	if(res) {
@@ -337,9 +340,6 @@ static int __init veml7700_init(void)
 		return res;
 	}
 
-
-
-  char register_cache[4];
   // write initial state to VEML7700
   register_cache[0] = ( (uint16_t(ALS_GAIN_x2) << ALS_SM_SHIFT) |
                         (uint16_t(ALS_INTEGRATION_100ms) << ALS_IT_SHIFT) |
