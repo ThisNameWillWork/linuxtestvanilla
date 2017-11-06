@@ -37,80 +37,80 @@ Description    :     LINUX DEVICE DRIVER PROJECT
 #define VEML7700_FIRST_MINOR 0
 #define VEML7700_NODE_NAME "veml7700"
 #define VEML7700_BUFF_SIZE 1024
-#define SUCCESS 0
+#define SUCCESS_ 0
 
 
 
-#define ALS_GAIN_x1_ 0x0  // x 1
-#define ALS_GAIN_x2_ 0x1   // x 2
-#define ALS_GAIN_d8_ 0x2   // x 1/8
-#define ALS_GAIN_d4_ 0x3  // x 1/4
+#define ALS_GAIN_x1 0x00  // x 1
+#define ALS_GAIN_x2 0x01   // x 2
+#define ALS_GAIN_d8 0x02   // x 1/8
+#define ALS_GAIN_d4 0x03  // x 1/4
 
-#define ALS_INTEGRATION_25ms_ 0xc
-#define ALS_INTEGRATION_50ms_ 0x8
-#define ALS_INTEGRATION_100ms_ 0x0
-#define ALS_INTEGRATION_200ms_ 0x1
-#define ALS_INTEGRATION_400ms_ 0x2
-#define ALS_INTEGRATION_800ms_ 0x3
+#define ALS_INTEGRATION_25ms 0xc
+#define ALS_INTEGRATION_50ms 0x8
+#define ALS_INTEGRATION_100ms 0x0
+#define ALS_INTEGRATION_200ms 0x1
+#define ALS_INTEGRATION_400ms 0x2
+#define ALS_INTEGRATION_800ms 0x3
 
-#define ALS_PERSISTENCE_1_ 0x0
-#define ALS_PERSISTENCE_2_ 0x1
-#define ALS_PERSISTENCE_4_ 0x2
-#define ALS_PERSISTENCE_8_ 0x3
+#define ALS_PERSISTENCE_1 0x0
+#define ALS_PERSISTENCE_2 0x1
+#define ALS_PERSISTENCE_4 0x2
+#define ALS_PERSISTENCE_8 0x3
 
-#define ALS_POWER_MODE_1_ 0x0
-#define ALS_POWER_MODE_2_ 0x1
-#define ALS_POWER_MODE_3_ 0x2
-#define ALS_POWER_MODE_4_ 0x3
+#define ALS_POWER_MODE_1 0x0
+#define ALS_POWER_MODE_2 0x1
+#define ALS_POWER_MODE_3 0x2
+#define ALS_POWER_MODE_4 0x3
 
-#define STATUS_OK_ 0
-#define STATUS_ERROR_ 0xff
+#define STATUS_OK 0
+#define STATUS_ERROR 0xff
 
   //########################################################################
 
-#define I2C_ADDRESS_ 0x10
+#define I2C_ADDRESS 0x10
 
-#define COMMAND_ALS_SM_ 0x00
-#define ALS_SM_MASK_ 0x1800
-#define ALS_SM_SHIFT_ 11
+#define COMMAND_ALS_SM 0x00
+#define ALS_SM_MASK 0x1800
+#define ALS_SM_SHIFT 11
 
-#define COMMAND_ALS_IT_ 0x00
-#define ALS_IT_MASK_ 0x03c0
-#define ALS_IT_SHIFT_ 6
+#define COMMAND_ALS_IT 0x00
+#define ALS_IT_MASK 0x03c0
+#define ALS_IT_SHIFT 6
 
-#define COMMAND_ALS_PERS_ 0x00
-#define ALS_PERS_MASK_ 0x0030
-#define ALS_PERS_SHIFT_ 4
+#define COMMAND_ALS_PERS 0x00
+#define ALS_PERS_MASK 0x0030
+#define ALS_PERS_SHIFT 4
 
-#define COMMAND_ALS_INT_EN_ 0x00
-#define ALS_INT_EN_MASK_ 0x0002
-#define ALS_INT_EN_SHIFT_ 1
+#define COMMAND_ALS_INT_EN 0x00
+#define ALS_INT_EN_MASK 0x0002
+#define ALS_INT_EN_SHIFT 1
 
-#define COMMAND_ALS_SD_ 0x00
-#define ALS_SD_MASK_ 0x0001
-#define ALS_SD_SHIFT_ 0
+#define COMMAND_ALS_SD 0x00
+#define ALS_SD_MASK 0x0001
+#define ALS_SD_SHIFT 0
 
-#define COMMAND_ALS_WH_ 0x01
-#define COMMAND_ALS_WL_ 0x02
+#define COMMAND_ALS_WH 0x01
+#define COMMAND_ALS_WL 0x02
 
-#define COMMAND_PSM_ 0x03
-#define PSM_MASK_ 0x0006
-#define PSM_SHIFT_ 1 
+#define COMMAND_PSM 0x03
+#define PSM_MASK 0x0006
+#define PSM_SHIFT 1 
 
-#define COMMAND_PSM_EN_ 0x03
-#define PSM_EN_MASK_ 0x0001
-#define PSM_EN_SHIFT_ 0
+#define COMMAND_PSM_EN 0x03
+#define PSM_EN_MASK 0x0001
+#define PSM_EN_SHIFT 0
 
-#define COMMAND_ALS_ 0x04 
-#define COMMAND_WHITE_ 0x05 
+#define COMMAND_ALS 0x04 
+#define COMMAND_WHITE 0x05 
 
-#define COMMAND_ALS_IF_L_ 0x06
-#define ALS_IF_L_MASK_ 0x8000
-#define ALS_IF_L_SHIFT_ 15
+#define COMMAND_ALS_IF_L 0x06
+#define ALS_IF_L_MASK 0x8000
+#define ALS_IF_L_SHIFT 15
 
-#define COMMAND_ALS_IF_H_ 0x06
-#define ALS_IF_H_MASK_ 0x4000
-#define ALS_IF_H_SHIFT_ 14
+#define COMMAND_ALS_IF_H 0x06
+#define ALS_IF_H_MASK 0x4000
+#define ALS_IF_H_SHIFT 14
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("ANDRE KILIAN");
