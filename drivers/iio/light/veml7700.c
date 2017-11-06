@@ -341,11 +341,11 @@ static int __init veml7700_init(void)
 	}
 
   // write initial state to VEML7700
-  register_cache[0] = ( (uint16_t(ALS_GAIN_x2) << ALS_SM_SHIFT) |
-                        (uint16_t(ALS_INTEGRATION_100ms) << ALS_IT_SHIFT) |
-                        (uint16_t(ALS_PERSISTENCE_1) << ALS_PERS_SHIFT) |
-                        (uint16_t(0) << ALS_INT_EN_SHIFT) |
-                        (uint16_t(0) << ALS_SD_SHIFT) );
+  register_cache[0] = ( (uint16_t(ALS_GAIN_x2)<<ALS_SM_SHIFT) |
+                        (uint16_t(ALS_INTEGRATION_100ms)<<ALS_IT_SHIFT) |
+                        (uint16_t(ALS_PERSISTENCE_1)<<ALS_PERS_SHIFT) |
+                        (uint16_t(0)<<ALS_INT_EN_SHIFT) |
+                        (uint16_t(0)<<ALS_SD_SHIFT) );
   register_cache[1] = 0x0000;
   register_cache[2] = 0xffff;
   register_cache[3] = ( (uint16_t(ALS_POWER_MODE_3) << PSM_SHIFT) | (uint16_t(0) << PSM_EN_SHIFT) );
