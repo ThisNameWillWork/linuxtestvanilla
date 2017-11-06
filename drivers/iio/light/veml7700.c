@@ -174,40 +174,28 @@ static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
 
 	  if(gain==ALS_GAIN_x1)
 	    factor1 = 1.f;
-
 	  else if(gain==ALS_GAIN_x2)
 	    factor1 = 0.5f;
-
 	  else if(gain==ALS_GAIN_d8)
 	    factor1 = 8.f;
-
 	  else if(gain==ALS_GAIN_d4)
 	    factor1 = 4.f;
-
 	  else
 	    factor1 = 1.f;
 
 
-
-
 	  if(inttime==ALS_INTEGRATION_25ms)
 	    factor2 = 0.2304f;
-
 	  else if(inttime==ALS_INTEGRATION_50ms)
 	    factor2 = 0.1152f;
-
 	  else if(inttime==ALS_INTEGRATION_100ms)
 	    factor2 = 0.0576f;
-
 	  else if(inttime==ALS_INTEGRATION_200ms)
 	    factor2 = 0.0288f;
-
 	  else if(inttime==ALS_INTEGRATION_400ms)
 	    factor2 = 0.0144f;
-
 	  else if(inttime==ALS_INTEGRATION_800ms)
 	    factor2 = 0.0072f;
-
 	  else
 	    factor2 = 0.2304f;
 
