@@ -172,7 +172,7 @@ static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
 	printk(KERN_DEBUG "VEML7700 ######################################### RET: %d\n",ret);
 
 
-	  if(gain==ALS_GAIN_x1)
+	  /*if(gain==ALS_GAIN_x1)
 	    factor1 = 1.f;
 	  else if(gain==ALS_GAIN_x2)
 	    factor1 = 0.5f;
@@ -202,7 +202,7 @@ static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
 
 	printk(KERN_DEBUG "VEML7700 ######################################### LUX: %d * %f * %f = \n",ret,factor1,factor2);
 	ret = ret * factor1 * factor2;
-	printk(KERN_DEBUG "VEML7700 ######################################### RET: %d\n",ret);
+	printk(KERN_DEBUG "VEML7700 ######################################### RET: %d\n",ret);*/
 
 
 	// //int e,x 		= -99;
