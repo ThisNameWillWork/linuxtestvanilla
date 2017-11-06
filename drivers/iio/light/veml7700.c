@@ -174,30 +174,6 @@ static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
 	printk(KERN_DEBUG "VEML7700 ######################################### RET: %d\n",ret);
 
 
-static uint16_t ZERO = 0;  
-static uint16_t ALS_GAIN_x1 = 0x00;  // x 1
-static uint16_t ALS_GAIN_x2 = 0x01;  // x 2
-static uint16_t ALS_GAIN_d8 = 0x02;  // x 1/8
-static uint16_t ALS_GAIN_d4 = 0x03;  // x 1/4
-
-uint16_t inttime;
-static uint16_t ALS_INTEGRATION_25ms = 0xc;
-static uint16_t ALS_INTEGRATION_50ms = 0x8;
-static uint16_t ALS_INTEGRATION_100ms = 0x0;
-static uint16_t ALS_INTEGRATION_200ms = 0x1;
-static uint16_t ALS_INTEGRATION_400ms = 0x2;
-static uint16_t ALS_INTEGRATION_800ms = 0x3;
-
-static uint16_t ALS_PERSISTENCE_1 = 0x0;
-static uint16_t ALS_PERSISTENCE_2 = 0x1;
-static uint16_t ALS_PERSISTENCE_4 = 0x2;
-static uint16_t ALS_PERSISTENCE_8 = 0x3;
-
-static uint16_t ALS_POWER_MODE_1 = 0x0;
-static uint16_t ALS_POWER_MODE_2 = 0x1;
-static uint16_t ALS_POWER_MODE_3 = 0x2;
-static uint16_t ALS_POWER_MODE_4 = 0x3;
-
 	  // if(gain==0x00)
 	  //   factor1 = 1.f;
 	  // else if(gain==0x01)
