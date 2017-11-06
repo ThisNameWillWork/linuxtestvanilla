@@ -39,32 +39,32 @@ Description    :     LINUX DEVICE DRIVER PROJECT
 #define VEML7700_BUFF_SIZE 1024
 
 uint16_t gain;
-static uint16_t ZERO = 0;  
-static uint16_t ALS_GAIN_x1 = 0x00;  // x 1
-static uint16_t ALS_GAIN_x2 = 0x01;  // x 2
-static uint16_t ALS_GAIN_d8 = 0x02;  // x 1/8
-static uint16_t ALS_GAIN_d4 = 0x03;  // x 1/4
+const uint16_t ZERO = 0;  
+const uint16_t ALS_GAIN_x1 = 0x00;  // x 1
+const uint16_t ALS_GAIN_x2 = 0x01;  // x 2
+const uint16_t ALS_GAIN_d8 = 0x02;  // x 1/8
+const uint16_t ALS_GAIN_d4 = 0x03;  // x 1/4
 
 uint16_t inttime;
-static uint16_t ALS_INTEGRATION_25ms = 0xc;
-static uint16_t ALS_INTEGRATION_50ms = 0x8;
-static uint16_t ALS_INTEGRATION_100ms = 0x0;
-static uint16_t ALS_INTEGRATION_200ms = 0x1;
-static uint16_t ALS_INTEGRATION_400ms = 0x2;
-static uint16_t ALS_INTEGRATION_800ms = 0x3;
+const uint16_t ALS_INTEGRATION_25ms = 0xc;
+const uint16_t ALS_INTEGRATION_50ms = 0x8;
+const uint16_t ALS_INTEGRATION_100ms = 0x0;
+const uint16_t ALS_INTEGRATION_200ms = 0x1;
+const uint16_t ALS_INTEGRATION_400ms = 0x2;
+const uint16_t ALS_INTEGRATION_800ms = 0x3;
 
-static uint16_t ALS_PERSISTENCE_1 = 0x0;
-static uint16_t ALS_PERSISTENCE_2 = 0x1;
-static uint16_t ALS_PERSISTENCE_4 = 0x2;
-static uint16_t ALS_PERSISTENCE_8 = 0x3;
+const uint16_t ALS_PERSISTENCE_1 = 0x0;
+const uint16_t ALS_PERSISTENCE_2 = 0x1;
+const uint16_t ALS_PERSISTENCE_4 = 0x2;
+const uint16_t ALS_PERSISTENCE_8 = 0x3;
 
-static uint16_t ALS_POWER_MODE_1 = 0x0;
-static uint16_t ALS_POWER_MODE_2 = 0x1;
-static uint16_t ALS_POWER_MODE_3 = 0x2;
-static uint16_t ALS_POWER_MODE_4 = 0x3;
+const uint16_t ALS_POWER_MODE_1 = 0x0;
+const uint16_t ALS_POWER_MODE_2 = 0x1;
+const uint16_t ALS_POWER_MODE_3 = 0x2;
+const uint16_t ALS_POWER_MODE_4 = 0x3;
 
-static uint16_t STATUS_OK = 0;
-static uint16_t STATUS_ERROR = 0xff;
+const uint16_t STATUS_OK = 0;
+const uint16_t STATUS_ERROR = 0xff;
 
   //########################################################################
 
@@ -165,18 +165,55 @@ static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
 	float factor1,factor2;
 	bytes_read	= 99;
 	ret 		= 0;
-	factor1 = 0.f;
-	factor2 = 0.f;
+	factor1 	= 0.f;
+	factor2 	= 0.f;
 
 	printk(KERN_DEBUG "VEML7700 ######################################### READ\n");
 
 	ret = i2c_smbus_read_word_data(priv->client, COMMAND_ALS);
 	printk(KERN_DEBUG "VEML7700 ######################################### RET: %d\n",ret);
 
-
-	  if(gain==ALS_GAIN_x1){
+	switch(gain){
+	  case ALS_GAIN_x1:
 	    factor1 = 1.f;
+	    break;
+	  case ALS_GAIN_x2:
+	    factor1 = 0.5f;
+	    break;
+	  case ALS_GAIN_d8:
+	    factor1 = 8.f;
+	    break;
+	  case ALS_GAIN_d4:
+	    factor1 = 4.f;
+	    break;
+	  default:
+	    factor1 = 1.f;
+	    break;
 	  }
+
+	  switch(inttime){
+	  case ALS_INTEGRATION_25ms:
+	    factor2 = 0.2304f;
+	    break;
+	  case ALS_INTEGRATION_50ms:
+	    factor2 = 0.1152f;
+	    break;
+	  case ALS_INTEGRATION_100ms:
+	    factor2 = 0.0576f;
+	    break;
+	  case ALS_INTEGRATION_200ms:
+	    factor2 = 0.0288f;
+	    break;
+	  case ALS_INTEGRATION_400ms:
+	    factor2 = 0.0144f;
+	    break;
+	  case ALS_INTEGRATION_800ms:
+	    factor2 = 0.0072f;
+	    break;
+	  default:
+	    factor2 = 0.2304f;
+	    break;
+	}
 
 	printk(KERN_DEBUG "VEML7700 ######################################### LUX: %d * %f * %f = \n",ret,factor1,factor2);
 	ret = ret * factor1 * factor2;
