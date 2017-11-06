@@ -39,7 +39,7 @@ Description    :     LINUX DEVICE DRIVER PROJECT
 #define VEML7700_BUFF_SIZE 1024
 
 
-
+static uint16_t ZERO = 0;  
 static uint16_t ALS_GAIN_x1 = 0x00;  // x 1
 static uint16_t ALS_GAIN_x2 = 0x01;  // x 2
 static uint16_t ALS_GAIN_d8 = 0x02;  // x 1/8
@@ -323,7 +323,7 @@ static int __init veml7700_init(void)
 	char test;
 	x = 99;
 
-	test = (uint16_t(ALS_GAIN_x2))<<ALS_SM_SHIFT;
+	test = ALS_GAIN_x2<<ALS_SM_SHIFT;
 
 	res = alloc_chrdev_region(&dev_num,VEML7700_FIRST_MINOR,VEML7700_N_MINORS ,DRIVER_NAME);
 	if(res) {
@@ -345,14 +345,14 @@ static int __init veml7700_init(void)
 	}
 
   // write initial state to VEML7700
-  register_cache[0] = ( (uint16_t(ALS_GAIN_x2))<<ALS_SM_SHIFT |
-                        (uint16_t(ALS_INTEGRATION_100ms))<<ALS_IT_SHIFT |
-                        (uint16_t(ALS_PERSISTENCE_1))<<ALS_PERS_SHIFT |
-                        (uint16_t(0))<<ALS_INT_EN_SHIFT |
-                        (uint16_t(0))<<ALS_SD_SHIFT);
+  register_cache[0] = ( ALS_GAIN_x2<<ALS_SM_SHIFT |
+                        ALS_INTEGRATION_100ms<<ALS_IT_SHIFT |
+                        ALS_PERSISTENCE_1<<ALS_PERS_SHIFT |
+                        ZERO<<ALS_INT_EN_SHIFT |
+                        ZERO<<ALS_SD_SHIFT);
   register_cache[1] = 0x0000;
   register_cache[2] = 0xffff;
-  register_cache[3] = ( (uint16_t(ALS_POWER_MODE_3)) << PSM_SHIFT | (uint16_t(0)) << PSM_EN_SHIFT );
+  register_cache[3] = ( ALS_POWER_MODE_3 << PSM_SHIFT | ZERO << PSM_EN_SHIFT );
 
 
 
