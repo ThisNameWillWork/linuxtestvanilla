@@ -165,8 +165,8 @@ static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
 	float factor1,factor2;
 	bytes_read	= 99;
 	ret 		= 0;
-	factor1 = 0f;
-	factor2 = 0f;
+	factor1 = 0.f;
+	factor2 = 0.f;
 
 	printk(KERN_DEBUG "VEML7700 ######################################### READ\n");
 
