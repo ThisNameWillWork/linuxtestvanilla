@@ -23,15 +23,15 @@ Description    :     LINUX DEVICE DRIVER PROJECT
 #define veml7700_DRV_NAME "veml7700"
 #define DEBUG 1
 
-#define COMMAND_ALS_SM 		 0x00   /**/ 
-#define COMMAND_ALS_WH      0x01   /**/ 
-#define COMMAND_ALS_WL      0x02   /**/ 
-#define COMMAND_PSM         0x03   /**/ 
-#define COMMAND_PSM_EN      0x03   /**/ 
-#define COMMAND_ALS         0x04   /**/ 
-#define COMMAND_WHITE       0x05   /**/ 
-#define COMMAND_ALS_IF_L    0x06   /**/ 
-#define COMMAND_ALS_IF_H    0x06   /**/ 
+#define COMMAND_ALS_SM 		 0x00   /**/
+#define COMMAND_ALS_WH      0x01   /**/
+#define COMMAND_ALS_WL      0x02   /**/
+#define COMMAND_PSM         0x03   /**/
+#define COMMAND_PSM_EN      0x03   /**/
+#define COMMAND_ALS         0x04   /**/
+#define COMMAND_WHITE       0x05   /**/
+#define COMMAND_ALS_IF_L    0x06   /**/
+#define COMMAND_ALS_IF_H    0x06   /**/
 
 #define VEML7700_N_MINORS 1
 #define VEML7700_FIRST_MINOR 0
@@ -94,14 +94,14 @@ Description    :     LINUX DEVICE DRIVER PROJECT
 
 #define COMMAND_PSM 0x03
 #define PSM_MASK 0x0006
-#define PSM_SHIFT 1 
+#define PSM_SHIFT 1
 
 #define COMMAND_PSM_EN 0x03
 #define PSM_EN_MASK 0x0001
 #define PSM_EN_SHIFT 0
 
-#define COMMAND_ALS 0x04 
-#define COMMAND_WHITE 0x05 
+#define COMMAND_ALS 0x04
+#define COMMAND_WHITE 0x05
 
 #define COMMAND_ALS_IF_L 0x06
 #define ALS_IF_L_MASK 0x8000
@@ -160,7 +160,7 @@ static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
 				size_t length, /* length of the buffer     */
 				loff_t * offset)
 {
-	int bytes_read,ret; 
+	int bytes_read,ret;
 	bytes_read	= 99;
 	ret 			= 0;
 
@@ -212,7 +212,7 @@ static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
 	// e = i2c_smbus_read_byte_data(priv->client, COMMAND_WHITE);
 	// printk(KERN_DEBUG "VEML7700 ######################################### WHITE VAL: %d\n",e);
 
-	
+
 	// x = i2c_smbus_read_word_data(priv->client, COMMAND_ALS);
 	// printk(KERN_DEBUG "VEML7700 ######################################### ALS VAL: %d\n",x);
 
@@ -263,7 +263,7 @@ static int veml7700_probe(struct i2c_client *client ,
 	}
 
 	priv->client = client;
-	priv->irq = client->irq;   
+	priv->irq = client->irq;
 	i2c_set_clientdata(client, priv);
 
 	cdev_init(&priv->cdev , &veml7700_fops);
@@ -318,8 +318,12 @@ static int __init veml7700_init(void)
 {
 	/* TODO Auto-generated Function Stub */
 
-	int res;
+	int res,x;
 	char register_cache[4];
+	char test;
+	x = 99;
+
+	test = (uint16_t(ALS_GAIN_x2))<<ALS_SM_SHIFT;
 
 	res = alloc_chrdev_region(&dev_num,VEML7700_FIRST_MINOR,VEML7700_N_MINORS ,DRIVER_NAME);
 	if(res) {
@@ -341,16 +345,16 @@ static int __init veml7700_init(void)
 	}
 
   // write initial state to VEML7700
-  register_cache[0] = ( (uint16_t(ALS_GAIN_x2)<<ALS_SM_SHIFT) |
-                        (uint16_t(ALS_INTEGRATION_100ms)<<ALS_IT_SHIFT) |
-                        (uint16_t(ALS_PERSISTENCE_1)<<ALS_PERS_SHIFT) |
-                        (uint16_t(0)<<ALS_INT_EN_SHIFT) |
-                        (uint16_t(0)<<ALS_SD_SHIFT) );
+  register_cache[0] = ( (uint16_t(ALS_GAIN_x2))<<ALS_SM_SHIFT |
+                        (uint16_t(ALS_INTEGRATION_100ms))<<ALS_IT_SHIFT |
+                        (uint16_t(ALS_PERSISTENCE_1))<<ALS_PERS_SHIFT |
+                        (uint16_t(0))<<ALS_INT_EN_SHIFT |
+                        (uint16_t(0))<<ALS_SD_SHIFT);
   register_cache[1] = 0x0000;
   register_cache[2] = 0xffff;
-  register_cache[3] = ( (uint16_t(ALS_POWER_MODE_3) << PSM_SHIFT) | (uint16_t(0) << PSM_EN_SHIFT) );
+  register_cache[3] = ( (uint16_t(ALS_POWER_MODE_3)) << PSM_SHIFT | (uint16_t(0)) << PSM_EN_SHIFT );
 
-  int x = 99;
+
 
   x = i2c_smbus_write_byte_data(priv->client, 0x00, register_cache[0]);
   printk(KERN_DEBUG "VEML7700 ######################################### CONF0: %d\n",x);
@@ -368,7 +372,7 @@ static int __init veml7700_init(void)
 }
 
 static void __exit veml7700_exit(void)
-{  
+{
 	/* TODO Auto-generated Function Stub */
 
 	PINFO("EXIT\n");
