@@ -37,13 +37,12 @@ Description    :     LINUX DEVICE DRIVER PROJECT
 #define VEML7700_FIRST_MINOR 0
 #define VEML7700_NODE_NAME "veml7700"
 #define VEML7700_BUFF_SIZE 1024
-#define SUCCESS_ 0
 
 
 
 #define ALS_GAIN_x1 0x00  // x 1
-#define ALS_GAIN_x2 0x01   // x 2
-#define ALS_GAIN_d8 0x02   // x 1/8
+#define ALS_GAIN_x2 0x01  // x 2
+#define ALS_GAIN_d8 0x02  // x 1/8
 #define ALS_GAIN_d4 0x03  // x 1/4
 
 #define ALS_INTEGRATION_25ms 0xc
