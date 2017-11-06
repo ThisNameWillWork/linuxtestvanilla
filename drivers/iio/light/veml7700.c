@@ -39,32 +39,32 @@ Description    :     LINUX DEVICE DRIVER PROJECT
 #define VEML7700_BUFF_SIZE 1024
 
 uint16_t gain;
-const uint16_t ZERO = 0;  
-const uint16_t ALS_GAIN_x1 = 0x00;  // x 1
-const uint16_t ALS_GAIN_x2 = 0x01;  // x 2
-const uint16_t ALS_GAIN_d8 = 0x02;  // x 1/8
-const uint16_t ALS_GAIN_d4 = 0x03;  // x 1/4
+#define uint16_t ZERO  0  
+#define uint16_t ALS_GAIN_x1  0x00  // x 1
+#define uint16_t ALS_GAIN_x2  0x01  // x 2
+#define uint16_t ALS_GAIN_d8  0x02   // x 1/8
+#define uint16_t ALS_GAIN_d4  0x03   // x 1/4
 
 uint16_t inttime;
-const uint16_t ALS_INTEGRATION_25ms = 0xc;
-const uint16_t ALS_INTEGRATION_50ms = 0x8;
-const uint16_t ALS_INTEGRATION_100ms = 0x0;
-const uint16_t ALS_INTEGRATION_200ms = 0x1;
-const uint16_t ALS_INTEGRATION_400ms = 0x2;
-const uint16_t ALS_INTEGRATION_800ms = 0x3;
+#define uint16_t ALS_INTEGRATION_25ms  0xc 
+#define uint16_t ALS_INTEGRATION_50ms  0x8 
+#define uint16_t ALS_INTEGRATION_100ms  0x0 
+#define uint16_t ALS_INTEGRATION_200ms  0x1 
+#define uint16_t ALS_INTEGRATION_400ms  0x2 
+#define uint16_t ALS_INTEGRATION_800ms  0x3 
 
-const uint16_t ALS_PERSISTENCE_1 = 0x0;
-const uint16_t ALS_PERSISTENCE_2 = 0x1;
-const uint16_t ALS_PERSISTENCE_4 = 0x2;
-const uint16_t ALS_PERSISTENCE_8 = 0x3;
+#define uint16_t ALS_PERSISTENCE_1  0x0 
+#define uint16_t ALS_PERSISTENCE_2  0x1 
+#define uint16_t ALS_PERSISTENCE_4  0x2 
+#define uint16_t ALS_PERSISTENCE_8  0x3 
 
-const uint16_t ALS_POWER_MODE_1 = 0x0;
-const uint16_t ALS_POWER_MODE_2 = 0x1;
-const uint16_t ALS_POWER_MODE_3 = 0x2;
-const uint16_t ALS_POWER_MODE_4 = 0x3;
+#define uint16_t ALS_POWER_MODE_1  0x0 
+#define uint16_t ALS_POWER_MODE_2  0x1 
+#define uint16_t ALS_POWER_MODE_3  0x2 
+#define uint16_t ALS_POWER_MODE_4  0x3 
 
-const uint16_t STATUS_OK = 0;
-const uint16_t STATUS_ERROR = 0xff;
+#define uint16_t STATUS_OK  0 
+#define uint16_t STATUS_ERROR  0xff 
 
   //########################################################################
 
