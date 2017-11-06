@@ -198,19 +198,6 @@ static uint16_t ALS_POWER_MODE_2 = 0x1;
 static uint16_t ALS_POWER_MODE_3 = 0x2;
 static uint16_t ALS_POWER_MODE_4 = 0x3;
 
-	  if(gain==0x00)
-	    factor1 = 1.f;
-	  else if(gain==0x01)
-	    factor1 = 0.5f;
-	  else if(gain==0x02)
-	    factor1 = 8.f;
-	  else if(gain==0x03)
-	    factor1 = 4.f;
-	  else
-	    factor1 = 1.f;
-
-
-	
 
 	printk(KERN_DEBUG "VEML7700 ######################################### LUX: %d * %f * %f = \n",ret,factor1,factor2);
 	ret = ret * factor1 * factor2;
