@@ -261,7 +261,7 @@ static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
 	// x = i2c_smbus_read_word_data(priv->client, COMMAND_WHITE);
 	// printk(KERN_DEBUG "VEML7700 ######################################### WHITE VAL: %d\n",x);
 
-	return (int)ret;
+	return ret;
 }
 
 static ssize_t device_write(struct file *file,
