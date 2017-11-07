@@ -15,6 +15,7 @@ Description    :     LINUX DEVICE DRIVER PROJECT
 #include <linux/i2c.h>
 #include <linux/err.h>
 #include <linux/delay.h>
+#include <sys/types.h>
 #include <asm/uaccess.h>   /* for get_user and put_user */
 
 #include <linux/iio/iio.h>
@@ -206,7 +207,7 @@ static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
 
 	//printk(KERN_DEBUG "VEML7700 ######################################### LUX: %d * %f * %f = \n",ret,factor1,factor2);
 	//float buf = (float) ret;
-	ret = retf * 0.0288f;
+	//ret = ret * 0.0288f;
 	//printk(KERN_DEBUG "VEML7700 ######################################### RET: %d\n",ret);
 
 
