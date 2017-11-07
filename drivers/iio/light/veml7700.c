@@ -162,7 +162,7 @@ static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
 				loff_t * offset)
 {
 	int bytes_read,ret;
-	float factor1,factor2;
+	float factor1,factor2,retf;
 	bytes_read	= 99;
 	ret 		= 0;
 	factor1 	= 0.f;
@@ -170,7 +170,7 @@ static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
 
 	printk(KERN_DEBUG "VEML7700 ######################################### READ\n");
 
-	ret = i2c_smbus_read_word_data(priv->client, COMMAND_ALS);
+	retf = i2c_smbus_read_word_data(priv->client, COMMAND_ALS);
 	printk(KERN_DEBUG "VEML7700 ######################################### RET: %d\n",ret);
 
 
@@ -206,7 +206,7 @@ static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
 
 	printk(KERN_DEBUG "VEML7700 ######################################### LUX: %d * %f * %f = \n",ret,factor1,factor2);
 	//float buf = (float) ret;
-	ret = (int)(ret * 0.0288f);
+	retf = retf * 0.0288f;
 	printk(KERN_DEBUG "VEML7700 ######################################### RET: %d\n",ret);
 
 
@@ -283,7 +283,7 @@ static const struct file_operations veml7700_fops= {
 	.read     = device_read,//
 	.write    = device_write,//
 	.open     = device_open,//
-	.release = device_release, /* a.k.a. close */
+	.release  = device_release, /* a.k.a. close */
 };
 
 static int veml7700_probe(struct i2c_client *client ,
