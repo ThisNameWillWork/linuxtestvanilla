@@ -15,7 +15,7 @@ Description    :     LINUX DEVICE DRIVER PROJECT
 #include <linux/i2c.h>
 #include <linux/err.h>
 #include <linux/delay.h>
-#include <sys/types.h>
+#include <linux/types.h>
 #include <asm/uaccess.h>   /* for get_user and put_user */
 
 #include <linux/iio/iio.h>
