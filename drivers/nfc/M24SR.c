@@ -17,6 +17,9 @@ Description    :     LINUX DEVICE DRIVER PROJECT
 #include <linux/delay.h>
 #include <linux/types.h>
 #include <asm/uaccess.h>   /* for get_user and put_user */
+#include <linux/nfc.h>
+#include <linux/netdevice.h>
+#include <net/nfc/nfc.h>
 
 #include <linux/iio/iio.h>
 #include <linux/iio/sysfs.h>
