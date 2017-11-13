@@ -206,8 +206,8 @@ static ssize_t device_read(struct file *file,   /* see include/linux/fs.h   */
 	
 
 	//printk(KERN_DEBUG "VEML7700 ######################################### LUX: %d * %f * %f = \n",ret,factor1,factor2);
-	float buf = (float) ret;
-	printk(KERN_DEBUG "VEML7700 ######################################### BUF: %f\n",buf);
+	//float buf = (float) ret;
+	//printk(KERN_DEBUG "VEML7700 ######################################### BUF: %f\n",buf);
 	//ret = (int) ((float)ret * 0.0288f);
 	//printk(KERN_DEBUG "VEML7700 ######################################### RET: %d\n",ret);
 
