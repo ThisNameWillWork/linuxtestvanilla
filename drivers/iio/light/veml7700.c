@@ -379,4 +379,3 @@ static void __exit veml7700_exit(void)
 
 module_init(veml7700_init);
 module_exit(veml7700_exit);
-

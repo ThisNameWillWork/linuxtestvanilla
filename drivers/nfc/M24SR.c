@@ -7,8 +7,16 @@ Description    :     LINUX DEVICE DRIVER PROJECT
 ===============================================================================
 */
 
-#include"m24sr.h"
+
 //#include "chardev.h"
+
+//##############################
+#include"m24sr.h"
+
+/* Init NDEF_FileID with bad value in case Init failed */
+static uint16_t NDEF_FileID = 0xDEAD;
+//##############################
+
 
 #include <linux/kernel.h>  /* We're doing kernel work */
 #include <linux/module.h>
@@ -24,7 +32,7 @@ Description    :     LINUX DEVICE DRIVER PROJECT
 #include <linux/iio/iio.h>
 #include <linux/iio/sysfs.h>
 
-#define m24sr_DRV_NAME "m24sr"
+#define m24sr_DRV_NAME "m24sr16"
 #define m24sr_N_MINORS 1
 #define m24sr_FIRST_MINOR 0
 #define DEBUG 1
@@ -113,6 +121,9 @@ static int m24sr_probe(struct i2c_client *client ,
 {
 	dev_t curr_dev;
 	unsigned int minor = atomic_inc_return(&dev_cnt);
+	int ret = 0;
+	char rset_cmd[] = { 0x05, 0xF9, 0x04, 0x00, 0xC3, 0xE5 };
+	int count = sizeof(rset_cmd);
 
 	PINFO("In i2c probe() function\n");
 
@@ -142,6 +153,9 @@ static int m24sr_probe(struct i2c_client *client ,
 		return -1;
 	}
 
+	ret = i2c_master_send(priv->client, rset_cmd, count);
+	printk(KERN_DEBUG "M24SR ######################################### RET: %d\n",ret);
+
 	return 0;
 }
 
@@ -161,8 +175,8 @@ static int m24sr_remove(struct i2c_client *client )
 
 static struct i2c_driver m24sr_i2c_driver = {
 	.driver = {
-		.name = DRIVER_NAME,
-		.owner   = THIS_MODULE,
+		.name 	= m24sr_DRV_NAME,
+		.owner  = THIS_MODULE,
 	 },
 	 .probe     = m24sr_probe,
 	 .remove    = m24sr_remove,
@@ -194,3 +208,103 @@ static void __exit m24sr_exit(void)
 module_init(m24sr_init);
 module_exit(m24sr_exit);
 
+///**
+//  * @brief  Initialize the command and response structure
+//  * @param  None
+//  * @retval None
+//  */
+//static void M24SR_InitStructure ( void )
+//{
+//	/* build the command */
+//	Command.Header.CLA = 0x00;
+//	Command.Header.INS = 0x00;
+//	/* copy the offset */
+//	Command.Header.P1 = 0x00 ;
+//	Command.Header.P2 = 0x00 ;
+//	/* copy the number of byte of the data field */
+//	Command.Body.LC = 0x00 ;
+//	/* copy the number of byte to read */
+//	Command.Body.LE = 0x00 ;
+//	Command.Body.pData = DataBuffer;
+//
+//  // 	/* initializes the response structure*/
+//  // 	Response.pData = DataBuffer;
+//  // 	Response.SW1 = 0x00;
+//  // 	Response.SW2 = 0x00;
+//}
+
+/**
+  * @brief  This function initialize the M24SR device
+  * @retval None
+  */
+//void M24SR_Init( void )
+//{
+//	M24SR_I2CInit();
+//	// M24SR_GPOInit(); // Empty function
+//
+//	M24SR_InitStructure();
+//
+//#if defined (I2C_GPO_SYNCHRO_ALLOWED) || defined (I2C_GPO_INTERRUPT_ALLOWED)
+//	if( M24SR_KillSession() == M24SR_ACTION_COMPLETED)
+//	{
+//    M24SR_ManageI2CGPO(I2C_ANSWER_READY);
+//	  M24SR_Deselect ();
+//	}
+//#endif /* I2C_GPO_SYNCHRO_ALLOWED */
+//}
+//
+///**
+//  * @brief  This fonction initialize the M24SR
+//	* @param	CCBuffer : pointer on the buffer to store CC file
+//	* @param	size : number of byte of data to read
+//  * @retval SUCCESS : Initalization done
+//	* @retval ERROR : Not able to Initialize.
+//  */
+//static uint16_t M24SR_Initialization ( uint8_t* CCBuffer, uint8_t size )
+//{
+//	uint16_t status = ERROR;
+//	uint16_t trials = 5; /* wait 1sec, driver is configured to let 200ms for command to complete */
+//                       /* which is enough for all commands except GetSession if RF session is already opened */
+//                       /* Smartphone generaly release the session within the second, but customer can modify this value */
+//
+//	/* Perform HW initialization */
+//	M24SR_Init();
+//
+//	/* Read CC file */
+//	while( status != M24SR_ACTION_COMPLETED && trials)
+//	{
+//		printk("Calling M24SR_GetSession(), attempts remaining %d\n", trials);
+//		status = M24SR_GetSession();
+//		printk("M24SR_GetSession() returned: %d\n", status);
+//		trials--;
+//	}
+//	if (status != M24SR_ACTION_COMPLETED)
+//	{
+//		printf("M24SR_GetSession() failed\n");
+//		return ERROR;
+//	}
+//	/*===================================*/
+//	/* Select the NFC type 4 application */
+//	/*===================================*/
+//	errorchk( M24SR_SelectApplication() );
+//
+//	/*==================*/
+//	/* select a CC file */
+//	/*==================*/
+//	errorchk (M24SR_SelectCCfile() );
+//
+//	/* read the first 15 bytes of the CC file */
+//	if( M24SR_ReadData ( 0x0000 , 0x0F , CCBuffer )== M24SR_ACTION_COMPLETED)
+//	{
+//		NDEF_FileID = (uint16_t) ((CCBuffer[0x09]<<8) | CCBuffer[0x0A]);
+//		errorchk( M24SR_Deselect () );
+//		return 0;
+//	}
+//	else
+//		errorchk( M24SR_Deselect () );
+//
+//	Error:
+//		printf("Error in M24SR_Initialization\n");
+//			return ERROR;
+//
+//}
