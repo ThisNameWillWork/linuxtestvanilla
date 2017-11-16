@@ -123,6 +123,9 @@ static int m24sr_probe(struct i2c_client *client ,
 	unsigned int minor = atomic_inc_return(&dev_cnt);
 	int ret = 0;
 	char rset_cmd[] = { 0x05, 0xF9, 0x04, 0x00, 0xC3, 0xE5 };
+	char cmd1[] 	= { 0x02, 0x00, 0xA4, 0x04, 0x00, 0x07, 0xD2, 0x76, 0x00, 0x00, 0x85, 0x01, 0x01, 0x00, 0x35, 0xC0 };
+	char cmd2[] 	= { 0x03, 0x00, 0xA4, 0x00, 0x0C, 0x02, 0xE1, 0x03, 0xD2, 0xAF };
+
 	int count = sizeof(rset_cmd);
 
 	PINFO("In i2c probe() function\n");
@@ -153,8 +156,17 @@ static int m24sr_probe(struct i2c_client *client ,
 		return -1;
 	}
 
+	//INIT pn544_hci_i2c_platform_init
+
+
 	ret = i2c_master_send(priv->client, rset_cmd, count);
-	printk(KERN_DEBUG "M24SR ######################################### RET: %d\n",ret);
+		printk(KERN_DEBUG "M24SR ######################################### RET: %d\n",ret);
+
+	ret = i2c_master_send(priv->client, cmd1, count);
+		printk(KERN_DEBUG "M24SR ######################################### RET: %d\n",ret);
+
+	ret = i2c_master_send(priv->client, cmd2, count);
+		printk(KERN_DEBUG "M24SR ######################################### RET: %d\n",ret);
 
 	return 0;
 }
