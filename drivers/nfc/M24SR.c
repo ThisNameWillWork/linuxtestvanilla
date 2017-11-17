@@ -122,14 +122,15 @@ static const struct file_operations m24sr_fops= {
 	* @retval M24SR_ACTION_COMPLETED : the function is succesful.
   * @retval Status (SW1&SW2) : if operation does not complete.
   */
-static int M24SR_GetSession ()
+uint16_t M24SR_GetSession ( void )
 {
 	uint8_t Buffer = M24SR_OPENSESSION;
-	int 	status;
+	int16_t 	status;
 
 	//errchk(M24SR_SendI2Ccommand ( 0x01 , &Buffer ));
 	status = i2c_master_send(priv->client, Buffer, 0x01);
 	printk(KERN_DEBUG "M24SR ######################################### GETSESS: %d\n",status);
+
 
 	return M24SR_ACTION_COMPLETED;
 }
