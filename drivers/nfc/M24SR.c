@@ -148,7 +148,12 @@ static int m24sr_probe(struct i2c_client *client ,
 
 	curr_dev = MKDEV(MAJOR(dev_num), MINOR(dev_num) + minor);
 	cdev_add(&priv->cdev, curr_dev,1);
-ailed\n");
+
+	priv->m24sr_device  =
+				device_create(m24sr_class , NULL ,curr_dev ,
+					priv ,m24sr_NODE_NAME"%d",m24sr_FIRST_MINOR);
+	if(!priv->m24sr_device) {
+		PERR("device creation failed\n");
 		return -1;
 	}
 
@@ -167,6 +172,16 @@ ailed\n");
 	return 0;
 }
 
+static int m24sr_remove(struct i2c_client *client )
+{
+	struct i2c_private *priv = i2c_get_clientdata(client);
+	PINFO("In i2c remove() function\n");
+
+	device_destroy(m24sr_class ,priv->cdev.dev);
+
+	cdev_del(&priv->cdev);
+
+	kfree(priv);
 
 	return 0;
 }
