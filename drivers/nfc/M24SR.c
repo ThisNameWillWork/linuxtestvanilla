@@ -33,6 +33,7 @@ static uint16_t NDEF_FileID = 0xDEAD;
 #include <linux/iio/sysfs.h>
 
 #define m24sr_DRV_NAME "m24sr16"
+#define m24sr_NODE_NAME "m24sr16"
 #define m24sr_N_MINORS 1
 #define m24sr_FIRST_MINOR 0
 #define DEBUG 1
