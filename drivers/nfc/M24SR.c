@@ -1,6 +1,6 @@
 /*
 ===============================================================================
-Driver Name    :     veml7700
+Driver Name    :     m24sr
 Author         :
 License        :     GPL
 Description    :     LINUX DEVICE DRIVER PROJECT
@@ -119,6 +119,7 @@ static const struct file_operations m24sr_fops= {
 static int m24sr_probe(struct i2c_client *client ,
 							const struct i2c_device_id *id)
 {
+	printk(KERN_DEBUG "M24SR ######################################### PROBE");
 	dev_t curr_dev;
 	unsigned int minor = atomic_inc_return(&dev_cnt);
 	int ret = 0;
