@@ -29,6 +29,7 @@
 #define PDEBUG(fmt,args...) printk(KERN_DEBUG"%s:"fmt,DRIVER_NAME, ##args)
 #define PERR(fmt,args...) printk(KERN_ERR"%s:"fmt,DRIVER_NAME,##args)
 #define PINFO(fmt,args...) printk(KERN_INFO"%s:"fmt,DRIVER_NAME, ##args)
+
 #include<linux/cdev.h>
 #include<linux/device.h>
 #include<linux/fs.h>
@@ -218,22 +219,22 @@ uint16_t M24SR_KillSession                                      ( void );
 uint16_t M24SR_Deselect                                             ( void );
 uint16_t M24SR_SelectApplication                            ( void );
 uint16_t M24SR_SelectCCfile                                     ( void );
-uint16_t M24SR_SelectNDEFfile                               ( uint16 NDEFfileId );
+uint16_t M24SR_SelectNDEFfile                               ( uint16_t NDEFfileId );
 uint16_t M24SR_SelectSystemfile                             ( void );
-uint16_t M24SR_ReadBinary                                       ( uint16 Offset, uint8 NbByteToRead, uint8_t *pBufferRead );
-uint16_t M24SR_STReadBinary                                     ( uint16 Offset, uint8 NbByteToRead, uint8_t *pBufferRead );
-uint16_t M24SR_UpdateBinary                                     ( uint16 Offset, uint8 NbByteToWrite, uint8 *pDataToWrite );
-uint16_t M24SR_Verify                                               ( uint16 uPwdId, uint8 NbPwdByte, uint8 *pPwd );
-uint16_t M24SR_ChangeReferenceData                      ( uint16 uPwdId, uint8 *pPwd );
-uint16_t M24SR_EnableVerificationRequirement    ( uint16 uReadOrWrite );
-uint16_t M24SR_DisableVerificationRequirement ( uint16 uReadOrWrite );
-uint16_t M24SR_EnablePermanentState                 ( uint16 uReadOrWrite  );
-uint16_t M24SR_DisablePermanentState                    ( uint16 uReadOrWrite  );
+uint16_t M24SR_ReadBinary                                       ( uint16_t Offset, uint8_t NbByteToRead, uint8_t *pBufferRead );
+uint16_t M24SR_STReadBinary                                     ( uint16_t Offset, uint8_t NbByteToRead, uint8_t *pBufferRead );
+uint16_t M24SR_UpdateBinary                                     ( uint16_t Offset, uint8_t NbByteToWrite, uint8_t *pDataToWrite );
+uint16_t M24SR_Verify                                               ( uint16_t uPwdId, uint8_t NbPwdByte, uint8_t *pPwd );
+uint16_t M24SR_ChangeReferenceData                      ( uint16_t uPwdId, uint8_t *pPwd );
+uint16_t M24SR_EnableVerificationRequirement    ( uint16_t uReadOrWrite );
+uint16_t M24SR_DisableVerificationRequirement ( uint16_t uReadOrWrite );
+uint16_t M24SR_EnablePermanentState                 ( uint16_t uReadOrWrite  );
+uint16_t M24SR_DisablePermanentState                    ( uint16_t uReadOrWrite  );
 uint16_t M24SR_SendInterrupt                                    ( void  );
-uint16_t M24SR_StateControl                                     ( uint8 uSetOrReset );
-uint16_t M24SR_ManageI2CGPO                                     ( uint8 GPO_I2Cconfig);
-uint16_t M24SR_ManageRFGPO                                      ( uint8 GPO_RFconfig);
-void         M24SR_RFConfig                                             ( uint8 OnOffChoice);
+uint16_t M24SR_StateControl                                     ( uint8_t uSetOrReset );
+uint16_t M24SR_ManageI2CGPO                                     ( uint8_t GPO_I2Cconfig);
+uint16_t M24SR_ManageRFGPO                                      ( uint8_t GPO_RFconfig);
+void         M24SR_RFConfig                                             ( uint8_t OnOffChoice);
 
 #ifdef __cplusplus
 }
