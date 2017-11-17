@@ -201,6 +201,8 @@ static int __init m24sr_init(void)
 {
 	/* TODO Auto-generated Function Stub */
 
+	int res;
+
 	res = alloc_chrdev_region(&dev_num,m24sr_FIRST_MINOR,m24sr_N_MINORS ,DRIVER_NAME);
 	if(res) {
 		PERR("register device no failed\n");
