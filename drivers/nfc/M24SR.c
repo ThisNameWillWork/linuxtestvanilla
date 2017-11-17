@@ -117,6 +117,23 @@ static const struct file_operations m24sr_fops= {
 	.release  = device_release, /* a.k.a. close */
 };
 
+/**
+  * @brief  This function sends the GetSession command to the M24SR device
+	* @retval M24SR_ACTION_COMPLETED : the function is succesful.
+  * @retval Status (SW1&SW2) : if operation does not complete.
+  */
+static uint16_t M24SR_GetSession ( void )
+{
+	uint8_t Buffer = M24SR_OPENSESSION;
+	int16_t 	status;
+
+	//errchk(M24SR_SendI2Ccommand ( 0x01 , &Buffer ));
+	status = i2c_master_send(priv->client, Buffer, 0x01);
+	printk(KERN_DEBUG "M24SR ######################################### GETSESS: %d\n",status);
+
+	return M24SR_ACTION_COMPLETED;
+}
+
 static int m24sr_probe(struct i2c_client *client ,
 							const struct i2c_device_id *id)
 {
@@ -169,6 +186,8 @@ static int m24sr_probe(struct i2c_client *client ,
 
 	ret = i2c_master_send(priv->client, cmd2, count);
 		printk(KERN_DEBUG "M24SR ######################################### RET: %d\n",ret);
+
+	M24SR_GetSession();
 
 	return 0;
 }
