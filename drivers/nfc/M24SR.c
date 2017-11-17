@@ -200,6 +200,25 @@ static struct i2c_driver m24sr_i2c_driver = {
 static int __init m24sr_init(void)
 {
 	/* TODO Auto-generated Function Stub */
+
+	res = alloc_chrdev_region(&dev_num,m24sr_FIRST_MINOR,m24sr_N_MINORS ,DRIVER_NAME);
+	if(res) {
+		PERR("register device no failed\n");
+		return -1;
+	}
+	m24sr_major = MAJOR(dev_num);
+
+	m24sr_class = class_create(THIS_MODULE , DRIVER_NAME);
+	if(!m24sr_class) {
+		PERR("class creation failed\n");
+		return -1;
+	}
+
+	res = i2c_add_driver(&m24sr_i2c_driver);
+	if(res) {
+		PERR("Adding driver to i2c core failed\n");
+		return res;
+	}
 	PINFO("INIT\n");
 
 	return 0;
