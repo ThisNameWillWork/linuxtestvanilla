@@ -25,6 +25,11 @@
   ******************************************************************************
   */
 
+#define DRIVER_NAME "ms24sr16"
+#define PDEBUG(fmt,args...) printk(KERN_DEBUG"%s:"fmt,DRIVER_NAME, ##args)
+#define PERR(fmt,args...) printk(KERN_ERR"%s:"fmt,DRIVER_NAME,##args)
+#define PINFO(fmt,args...) printk(KERN_INFO"%s:"fmt,DRIVER_NAME, ##args)
+
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __DRV_M24SR_H
 #define __DRV_M24SR_H
