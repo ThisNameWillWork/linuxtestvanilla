@@ -70,7 +70,6 @@ config NFC_PORT100
 
 config NFC_M24SR
 	tristate "M24SR NFC"
-	depends on NFC_DIGITAL
 	help
 	  ####################
 
