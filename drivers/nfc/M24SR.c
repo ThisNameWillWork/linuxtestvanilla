@@ -135,6 +135,29 @@ uint16_t M24SR_GetSession ( void )
 	return M24SR_ACTION_COMPLETED;
 }
 
+void hexResponse(int value)
+{
+    long quotient, remainder;
+    int i, j = 0;
+    char hexadecimalnum[100];
+
+    quotient = value;
+
+    while (quotient != 0)
+    {
+        remainder = quotient % 16;
+        if (remainder < 10)
+            hexadecimalnum[j++] = 48 + remainder;
+        else
+            hexadecimalnum[j++] = 55 + remainder;
+        quotient = quotient / 16;
+    }
+
+    // display integer into character
+    for (i = j; i >= 0; i--)
+            printk("%c", hexadecimalnum[i]);
+}
+
 static int m24sr_probe(struct i2c_client *client ,
 							const struct i2c_device_id *id)
 {
@@ -188,18 +211,23 @@ static int m24sr_probe(struct i2c_client *client ,
 
 	ret = i2c_master_send(priv->client, getSession, sCount);
 		printk(KERN_DEBUG "M24SR ######################################### RET: %d\n",ret);
+		hexResponse(ret);
 
 	ret = i2c_master_send(priv->client, rset_cmd, count);
 		printk(KERN_DEBUG "M24SR ######################################### RET: %d\n",ret);
+		hexResponse(ret);
 
 	ret = i2c_master_send(priv->client, cmd1, count1);
 		printk(KERN_DEBUG "M24SR ######################################### RET: %d\n",ret);
+		hexResponse(ret);
 
 	ret = i2c_master_send(priv->client, cmd2, count2);
 		printk(KERN_DEBUG "M24SR ######################################### RET: %d\n",ret);
+		hexResponse(ret);
 
 	ret = i2c_master_send(priv->client, cmd3, count3);
 		printk(KERN_DEBUG "M24SR ######################################### RET: %d\n",ret);
+		hexResponse(ret);
 
 	//M24SR_GetSession();
 
