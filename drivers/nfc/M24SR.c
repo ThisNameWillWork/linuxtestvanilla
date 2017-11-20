@@ -208,11 +208,11 @@ static int m24sr_probe(struct i2c_client *client ,
 
 	//INIT pn544_hci_i2c_platform_init
 
-	ret = i2c_master_send(priv->client, rset_cmd, count);
+	ret = i2c_master_send(priv->client, cmd1, count1);
 		printk(KERN_DEBUG "M24SR ######################################### RET: %d\n",ret);
 		hexResponse(ret);
 
-	ret = s32 i2c_smbus_write_byte(priv->client, 0x26);
+	ret = i2c_smbus_write_byte(priv->client, 0x26);
 		printk(KERN_DEBUG "M24SR ######################################### RET: %d\n",ret);
 
 	ret = i2c_master_send(priv->client, getSession, sCount);
