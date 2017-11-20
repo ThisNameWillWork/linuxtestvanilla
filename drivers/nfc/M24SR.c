@@ -41,7 +41,7 @@ static uint16_t NDEF_FileID = 0xDEAD;
 
 //########################################################################
 
-#define I2C_ADDRESS 0x2d
+#define I2C_ADDRESS 0x56
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("ANDRE KILIAN");
@@ -143,12 +143,14 @@ static int m24sr_probe(struct i2c_client *client ,
 	unsigned int minor = atomic_inc_return(&dev_cnt);
 	int ret = 0;
 	char rset_cmd[] = { 0x00,0x05, 0xF9, 0x04, 0x00, 0xC3, 0xE5 };
+	char getSession[] = { M24SR_OPENSESSION };
 	char cmd1[] 	= { 0x00,0x26, 0x00, 0x00, 0x00, 0x06};
 	char cmd2[] 	= { 0x00,0x03, 0x00, 0xA4, 0x00, 0x0C, 0x02, 0xE1, 0x03, 0xD2, 0xAF };
 	char cmd3[] 	= { 0x00,0xa4, 0x04, 0x00, 0x07, 0xd2, 0x76, 0x00, 0x00, 0x85, 0x01, 0x01};
 	//0x00 A4 04 00 07 D2 76 00 00 85 01 01 00
 
 	int count = sizeof(rset_cmd);
+	int sCount = sizeof(getSession);
 	int count1 = sizeof(cmd1);
 	int count2 = sizeof(cmd2);
 	int count3 = sizeof(cmd3);
@@ -183,6 +185,9 @@ static int m24sr_probe(struct i2c_client *client ,
 
 	//INIT pn544_hci_i2c_platform_init
 
+
+	ret = i2c_master_send(priv->client, getSession, sCount);
+		printk(KERN_DEBUG "M24SR ######################################### RET: %d\n",ret);
 
 	ret = i2c_master_send(priv->client, rset_cmd, count);
 		printk(KERN_DEBUG "M24SR ######################################### RET: %d\n",ret);

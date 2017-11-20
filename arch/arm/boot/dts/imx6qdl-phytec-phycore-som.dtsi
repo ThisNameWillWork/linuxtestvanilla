@@ -119,7 +119,7 @@
 
 	nfc: nfc_m24sr16@2d {
 		compatible = "m24sr16";
-		reg = <0x2d>;
+		reg = <0x56>;
 		status = "okay";
     };
 };
