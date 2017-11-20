@@ -213,7 +213,11 @@ static int m24sr_probe(struct i2c_client *client ,
 		printk(KERN_DEBUG "M24SR ######################################### RET: %d\n",ret);
 		hexResponse(ret);
 
-	ret = i2c_master_send(priv->client, rset_cmd, count);
+		ret = i2c_master_send(priv->client, cmd3, count3);
+			printk(KERN_DEBUG "M24SR ######################################### RET: %d\n",ret);
+			hexResponse(ret);
+
+	/*ret = i2c_master_send(priv->client, rset_cmd, count);
 		printk(KERN_DEBUG "M24SR ######################################### RET: %d\n",ret);
 		hexResponse(ret);
 
@@ -223,11 +227,9 @@ static int m24sr_probe(struct i2c_client *client ,
 
 	ret = i2c_master_send(priv->client, cmd2, count2);
 		printk(KERN_DEBUG "M24SR ######################################### RET: %d\n",ret);
-		hexResponse(ret);
+		hexResponse(ret);*/
 
-	ret = i2c_master_send(priv->client, cmd3, count3);
-		printk(KERN_DEBUG "M24SR ######################################### RET: %d\n",ret);
-		hexResponse(ret);
+
 
 	//M24SR_GetSession();
 
