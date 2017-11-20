@@ -170,6 +170,7 @@ static int m24sr_probe(struct i2c_client *client ,
 	char cmd1[] 	= { 0x00,0x26, 0x00, 0x00, 0x00, 0x06};
 	char cmd2[] 	= { 0x00,0x03, 0x00, 0xA4, 0x00, 0x0C, 0x02, 0xE1, 0x03, 0xD2, 0xAF };
 	char cmd3[] 	= { 0x00,0xa4, 0x04, 0x00, 0x07, 0xd2, 0x76, 0x00, 0x00, 0x85, 0x01, 0x01};
+	char cmd4[] 	= {0x02,0x00,0xA4,0x04,0x00,0x07,0xD2,0x76,0x00,0x00,0x85,0x01,0x01,0x00,0x35,0xC0};
 	//0x00 A4 04 00 07 D2 76 00 00 85 01 01 00
 
 	int count = sizeof(rset_cmd);
@@ -208,14 +209,14 @@ static int m24sr_probe(struct i2c_client *client ,
 
 	//INIT pn544_hci_i2c_platform_init
 
-	ret = i2c_master_send(priv->client, cmd1, count1);
-		printk(KERN_DEBUG "M24SR ######################################### RET: %d\n",ret);
-		hexResponse(ret);
-
 	ret = i2c_smbus_write_byte(priv->client, 0x26);
 		printk(KERN_DEBUG "M24SR ######################################### RET: %d\n",ret);
 
 	ret = i2c_master_send(priv->client, getSession, sCount);
+		printk(KERN_DEBUG "M24SR ######################################### RET: %d\n",ret);
+		hexResponse(ret);
+
+	ret = i2c_master_send(priv->client, cmd4, count3);
 		printk(KERN_DEBUG "M24SR ######################################### RET: %d\n",ret);
 		hexResponse(ret);
 
